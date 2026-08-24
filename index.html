@@ -258,8 +258,8 @@
   .modal-sheet h3{font-family:var(--disp);text-transform:uppercase;font-size:16px;margin:0 0 8px;}
   .modal-sheet p{color:var(--text-dim);font-size:13.5px;line-height:1.5;margin:0 0 18px;}
 
-  /* file input hidden */
-  #photoInput{display:none;}
+  /* file inputs hidden */
+  #photoInputCamera, #photoInputGallery{display:none;}
 </style>
 </head>
 <body>
@@ -348,12 +348,17 @@
       <div class="field">
         <label>Fotos</label>
         <div class="photo-grid" id="photoGrid">
-          <div class="photo-add" id="photoAddBtn">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-            Adicionar
+          <div class="photo-add" id="photoAddCameraBtn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            Câmara
+          </div>
+          <div class="photo-add" id="photoAddGalleryBtn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            Galeria
           </div>
         </div>
-        <input type="file" id="photoInput" accept="image/*" capture="environment" multiple>
+        <input type="file" id="photoInputCamera" accept="image/*" capture="environment">
+        <input type="file" id="photoInputGallery" accept="image/*" multiple>
       </div>
 
       <button class="btn-primary" id="saveBtn">Guardar Ocorrência</button>
@@ -612,13 +617,14 @@
 
   function renderPhotoGrid(){
     const grid = document.getElementById('photoGrid');
-    const addBtn = document.getElementById('photoAddBtn');
+    const camBtn = document.getElementById('photoAddCameraBtn');
+    const galBtn = document.getElementById('photoAddGalleryBtn');
     grid.querySelectorAll('.photo-item').forEach(n=>n.remove());
     state.formPhotos.forEach((src, idx)=>{
       const div = document.createElement('div');
       div.className = 'photo-item';
       div.innerHTML = `<img src="${src}"><button type="button" class="photo-remove" data-idx="${idx}">✕</button>`;
-      grid.insertBefore(div, addBtn);
+      grid.insertBefore(div, camBtn);
     });
     grid.querySelectorAll('.photo-remove').forEach(btn=>{
       btn.onclick = (e)=>{
@@ -627,7 +633,9 @@
         renderPhotoGrid();
       };
     });
-    addBtn.style.display = state.formPhotos.length >= MAX_PHOTOS ? 'none' : 'flex';
+    const reachedMax = state.formPhotos.length >= MAX_PHOTOS;
+    camBtn.style.display = reachedMax ? 'none' : 'flex';
+    galBtn.style.display = reachedMax ? 'none' : 'flex';
   }
 
   function resizeAndEncode(file){
@@ -830,8 +838,15 @@
       b.onclick = ()=> setSegToggle(b.dataset.status);
     });
 
-    document.getElementById('photoAddBtn').onclick = ()=> document.getElementById('photoInput').click();
-    document.getElementById('photoInput').onchange = (e)=>{
+    document.getElementById('photoAddCameraBtn').onclick = ()=> document.getElementById('photoInputCamera').click();
+    document.getElementById('photoAddGalleryBtn').onclick = ()=> document.getElementById('photoInputGallery').click();
+    document.getElementById('photoInputCamera').onchange = (e)=>{
+      if(e.target.files && e.target.files.length){
+        handlePhotoFiles(e.target.files);
+      }
+      e.target.value = '';
+    };
+    document.getElementById('photoInputGallery').onchange = (e)=>{
       if(e.target.files && e.target.files.length){
         handlePhotoFiles(e.target.files);
       }
