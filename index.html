@@ -263,7 +263,43 @@
 </style>
 </head>
 <body>
-<div id="app">
+
+<div id="loginGate" style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;background:var(--bg);">
+  <div style="width:100%;max-width:360px;">
+    <div style="text-align:center;margin-bottom:28px;">
+      <div class="logo-mark" style="margin:0 auto 14px;width:56px;height:56px;font-size:24px;">A</div>
+      <div style="font-family:var(--disp);font-weight:600;font-size:19px;text-transform:uppercase;letter-spacing:.5px;">Azurmetal</div>
+      <div style="font-family:var(--mono);font-size:11px;color:var(--text-dim);margin-top:4px;letter-spacing:.5px;">ACESSO RESTRITO</div>
+    </div>
+    <div style="background:var(--panel);border:1px solid var(--steel);border-radius:var(--radius);padding:20px;">
+      <div class="field">
+        <label>Nome</label>
+        <select id="loginNome">
+          <option value="">Selecione o seu nome</option>
+          <option value="Marco">Marco</option>
+          <option value="José">José</option>
+          <option value="Joana">Joana</option>
+          <option value="Convidado 1">Convidado 1</option>
+          <option value="Convidado 2">Convidado 2</option>
+          <option value="Convidado 3">Convidado 3</option>
+          <option value="Convidado 4">Convidado 4</option>
+          <option value="Convidado 5">Convidado 5</option>
+        </select>
+      </div>
+      <div class="field" style="margin-bottom:6px;">
+        <label>Código de acesso</label>
+        <input type="text" id="loginCodigo" placeholder="Código fornecido pelo Allan" autocomplete="off">
+      </div>
+      <div id="loginError" style="color:var(--red);font-size:12.5px;font-family:var(--mono);min-height:18px;margin-bottom:6px;"></div>
+      <button class="btn-primary" id="loginBtn" style="margin-top:4px;">Entrar</button>
+    </div>
+    <div style="text-align:center;margin-top:16px;font-family:var(--mono);font-size:10.5px;color:var(--text-faint);">
+      Sem código? Fale com o Allan Xavier.
+    </div>
+  </div>
+</div>
+
+<div id="app" style="display:none;">
 
   <header class="topbar">
     <div class="brand-row">
@@ -384,6 +420,9 @@
 
       <div class="section-label">Dados</div>
       <button class="btn-secondary" id="exportBtn">Exportar backup (.json)</button>
+
+      <div class="section-label">Conta</div>
+      <button class="btn-secondary btn-danger" id="logoutBtn">Sair / Trocar utilizador</button>
     </section>
 
   </main>
@@ -856,6 +895,13 @@
     document.getElementById('saveBtn').onclick = saveForm;
     document.getElementById('addMachineBtn').onclick = addMachine;
     document.getElementById('exportBtn').onclick = exportData;
+    document.getElementById('logoutBtn').onclick = ()=>{
+      localStorage.removeItem('azurmetal_auth_v1');
+      document.getElementById('app').style.display = 'none';
+      document.getElementById('loginGate').style.display = 'flex';
+      document.getElementById('loginCodigo').value = '';
+      document.getElementById('loginNome').value = '';
+    };
 
     document.getElementById('lightbox').onclick = ()=> document.getElementById('lightbox').classList.remove('active');
 
@@ -883,6 +929,50 @@
   }
 
   init();
+})();
+</script>
+
+<script>
+(function(){
+  "use strict";
+  const AUTH_KEY = "azurmetal_auth_v1";
+  const ACCESS_CODES = {
+    "Marco": "MARCO394",
+    "José": "JOSE812",
+    "Joana": "JOANA157",
+    "Convidado 1": "CONV1263",
+    "Convidado 2": "CONV2748",
+    "Convidado 3": "CONV3905",
+    "Convidado 4": "CONV4361",
+    "Convidado 5": "CONV5627"
+  };
+
+  function tryUnlock(){
+    const nome = document.getElementById('loginNome').value;
+    const codigo = document.getElementById('loginCodigo').value.trim().toUpperCase();
+    const errEl = document.getElementById('loginError');
+    if(!nome){ errEl.textContent = 'Selecione o seu nome.'; return; }
+    if(!codigo){ errEl.textContent = 'Escreva o código de acesso.'; return; }
+    if(ACCESS_CODES[nome] === codigo){
+      localStorage.setItem(AUTH_KEY, nome);
+      showApp();
+    } else {
+      errEl.textContent = 'Código incorreto para este nome.';
+    }
+  }
+
+  function showApp(){
+    document.getElementById('loginGate').style.display = 'none';
+    document.getElementById('app').style.display = '';
+  }
+
+  document.getElementById('loginBtn').addEventListener('click', tryUnlock);
+  document.getElementById('loginCodigo').addEventListener('keydown', (e)=>{ if(e.key==='Enter') tryUnlock(); });
+
+  const savedName = localStorage.getItem(AUTH_KEY);
+  if(savedName && ACCESS_CODES[savedName]){
+    showApp();
+  }
 })();
 </script>
 </body>
