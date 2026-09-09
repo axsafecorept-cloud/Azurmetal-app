@@ -221,6 +221,58 @@
   .machine-row input:focus{outline:none;}
   .machine-row .m-del{color:var(--text-faint);cursor:pointer;padding:4px;flex-shrink:0;}
 
+  /* ---------- PEÇAS ---------- */
+  .part-card{
+    background:var(--panel);border:1px solid var(--steel);border-radius:var(--radius);
+    margin-bottom:10px;padding:12px 13px;cursor:pointer;border-left:3px solid var(--steel-light);
+  }
+  .part-card:active{background:var(--panel-2);}
+  .part-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;}
+  .part-num{font-family:var(--mono);font-weight:700;font-size:16px;color:var(--red);letter-spacing:.4px;}
+  .part-dim{font-family:var(--mono);font-size:11.5px;color:var(--text-dim);}
+  .part-extra{font-size:12.5px;color:var(--text-dim);margin-top:5px;line-height:1.4;}
+  .part-extra b{color:var(--text);font-weight:600;}
+
+  .spec-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .spec-box{background:var(--panel-2);border:1px solid var(--steel);border-radius:var(--radius);padding:10px 12px;}
+  .spec-box .l{font-family:var(--mono);font-size:9.5px;text-transform:uppercase;letter-spacing:.6px;color:var(--text-faint);margin-bottom:3px;}
+  .spec-box .v{font-family:var(--mono);font-size:16px;font-weight:700;}
+
+  .check-row{
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
+    background:var(--panel);border:1px solid var(--steel);border-radius:var(--radius);
+    padding:12px 13px;margin-bottom:9px;
+  }
+  .check-row .c-label{font-size:14px;font-weight:500;}
+  .check-row .c-sub{font-size:11.5px;color:var(--text-dim);margin-top:2px;}
+  .check-toggle{display:flex;background:var(--panel-2);border:1px solid var(--steel);border-radius:20px;overflow:hidden;flex-shrink:0;}
+  .check-toggle button{background:transparent;border:none;color:var(--text-dim);padding:7px 12px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;cursor:pointer;}
+  .check-toggle button.on-ok.active{background:rgba(47,168,79,.18);color:var(--green);}
+  .check-toggle button.on-nok.active{background:rgba(227,6,19,.18);color:var(--red);}
+
+  .result-banner{
+    text-align:center;padding:12px;border-radius:var(--radius);font-family:var(--disp);
+    text-transform:uppercase;letter-spacing:.5px;font-weight:600;font-size:14.5px;margin-bottom:16px;
+  }
+  .result-banner.aprovado{background:rgba(47,168,79,.14);color:var(--green);border:1px solid rgba(47,168,79,.35);}
+  .result-banner.reprovado{background:rgba(227,6,19,.14);color:var(--red);border:1px solid rgba(227,6,19,.35);}
+  .result-banner.pendente{background:rgba(242,169,0,.14);color:var(--amber);border:1px solid rgba(242,169,0,.35);}
+
+  .verif-row{
+    background:var(--panel);border:1px solid var(--steel);border-radius:var(--radius);
+    padding:11px 13px;margin-bottom:9px;border-left:3px solid var(--steel-light);
+  }
+  .verif-row.aprovado{border-left-color:var(--green);}
+  .verif-row.reprovado{border-left-color:var(--red);}
+  .verif-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px;}
+  .verif-top .vp-num{font-family:var(--mono);font-weight:700;font-size:14.5px;}
+  .verif-top .vp-badge{font-family:var(--mono);font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;}
+  .verif-row.aprovado .vp-badge{color:var(--green);}
+  .verif-row.reprovado .vp-badge{color:var(--red);}
+  .verif-meta{font-family:var(--mono);font-size:10.5px;color:var(--text-dim);margin-top:4px;}
+
+  .report-summary{display:flex;gap:8px;margin-bottom:16px;}
+
   /* ---------- NAV ---------- */
   nav.bottombar{
     position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:560px;
@@ -280,6 +332,8 @@
           <option value="José">José — Engenheiro</option>
           <option value="Joana">Joana — Chefe de RH</option>
           <option value="Allan Xavier">Allan Xavier — Colaborador</option>
+          <option value="Nuno">Nuno — Colaborador (Operador)</option>
+          <option value="Paulo">Paulo — Colaborador (Operador)</option>
           <option value="Convidado 1">Convidado 1</option>
           <option value="Convidado 2">Convidado 2</option>
           <option value="Convidado 3">Convidado 3</option>
@@ -413,6 +467,137 @@
       <div id="detalheContent"></div>
     </section>
 
+    <!-- ===== VIEW: PEÇAS (lista + busca) ===== -->
+    <section class="view" id="view-pecas">
+      <div class="search-wrap">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input type="text" id="partSearchInput" placeholder="Digite o número da peça...">
+      </div>
+      <button class="btn-secondary" id="reportBtn" style="margin-bottom:14px;">📋 Relatório do dia</button>
+      <div id="partList"></div>
+      <button class="btn-primary" id="newPartBtn" style="margin-top:14px;">+ Nova Peça</button>
+    </section>
+
+    <!-- ===== VIEW: FORM DE PEÇA (nova/editar) ===== -->
+    <section class="view" id="view-peca-form">
+      <div class="form-header">
+        <div class="back-btn" data-nav="pecas">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg>
+        </div>
+        <div class="form-title" id="partFormTitleLabel">Nova Peça</div>
+      </div>
+
+      <div class="field">
+        <label>Número da peça</label>
+        <input type="text" id="pNumero" placeholder="Ex: V-1042">
+      </div>
+      <div class="field">
+        <label>Comprimento (mm)</label>
+        <input type="text" id="pComprimento" inputmode="decimal" placeholder="Ex: 14000">
+      </div>
+      <div class="field">
+        <label>Largura (mm)</label>
+        <input type="text" id="pLargura" inputmode="decimal" placeholder="Ex: 300">
+      </div>
+      <div class="field">
+        <label>Espessura (mm)</label>
+        <input type="text" id="pEspessura" inputmode="decimal" placeholder="Ex: 12">
+      </div>
+      <div class="field">
+        <label>Ângulos</label>
+        <textarea id="pAngulos" placeholder="Ex: 45° nas duas pontas"></textarea>
+      </div>
+      <div class="field">
+        <label>Furos</label>
+        <textarea id="pFuros" placeholder="Ex: 2 furos Ø12mm a 50mm de cada ponta"></textarea>
+      </div>
+      <div class="field">
+        <label>Observações</label>
+        <textarea id="pObs" placeholder="Outros detalhes do mapa de corte..."></textarea>
+      </div>
+
+      <button class="btn-primary" id="savePartBtn">Guardar Peça</button>
+      <button class="btn-secondary" data-nav="pecas">Cancelar</button>
+    </section>
+
+    <!-- ===== VIEW: DETALHE DA PEÇA ===== -->
+    <section class="view" id="view-peca-detalhe">
+      <div class="form-header">
+        <div class="back-btn" data-nav="pecas">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg>
+        </div>
+        <div class="form-title">Ficha da Peça</div>
+      </div>
+      <div id="partDetalheContent"></div>
+    </section>
+
+    <!-- ===== VIEW: VERIFICAÇÃO DE LOTE ===== -->
+    <section class="view" id="view-verificacao">
+      <div class="form-header">
+        <div class="back-btn" id="verifBackBtn">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg>
+        </div>
+        <div class="form-title">Verificar Lote</div>
+      </div>
+      <div id="verifPartLabel" style="font-family:var(--mono);font-size:12px;color:var(--text-dim);margin-bottom:14px;"></div>
+
+      <div class="field">
+        <label>Máquina</label>
+        <select id="vMaquina"></select>
+      </div>
+      <div class="field">
+        <label>Identificação do lote (opcional)</label>
+        <input type="text" id="vLote" placeholder="Ex: Lote 07/09">
+      </div>
+      <div class="field">
+        <label>Quantidade de peças no lote</label>
+        <input type="text" id="vQtd" inputmode="numeric" placeholder="Ex: 10">
+      </div>
+      <div class="field">
+        <label>Medidas observadas na 1ª peça</label>
+        <textarea id="vMedidas" placeholder="Ex: 14000mm, furos a 50mm, ângulo 45° confirmado"></textarea>
+      </div>
+
+      <div class="section-label">Checklist</div>
+      <div class="check-row">
+        <div><div class="c-label">Dimensões</div><div class="c-sub">Comprimento / largura conforme mapa</div></div>
+        <div class="check-toggle" data-check="dimensoes"><button type="button" class="on-ok">OK</button><button type="button" class="on-nok">Falha</button></div>
+      </div>
+      <div class="check-row">
+        <div><div class="c-label">Furos</div><div class="c-sub">Posição e diâmetro conforme mapa</div></div>
+        <div class="check-toggle" data-check="furos"><button type="button" class="on-ok">OK</button><button type="button" class="on-nok">Falha</button></div>
+      </div>
+      <div class="check-row">
+        <div><div class="c-label">Ângulos</div><div class="c-sub">Corte angular conforme mapa</div></div>
+        <div class="check-toggle" data-check="angulos"><button type="button" class="on-ok">OK</button><button type="button" class="on-nok">Falha</button></div>
+      </div>
+
+      <div class="field" style="margin-top:14px;">
+        <label>Observações</label>
+        <textarea id="vObs" placeholder="Notas adicionais sobre a verificação..."></textarea>
+      </div>
+
+      <button class="btn-primary" id="saveVerifBtn">Guardar Verificação</button>
+      <button class="btn-secondary" id="cancelVerifBtn">Cancelar</button>
+    </section>
+
+    <!-- ===== VIEW: RELATÓRIO DO DIA ===== -->
+    <section class="view" id="view-relatorio">
+      <div class="form-header">
+        <div class="back-btn" data-nav="pecas">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg>
+        </div>
+        <div class="form-title">Relatório do Dia</div>
+      </div>
+      <div class="report-summary">
+        <div class="stat-chip"><div class="n" id="repTotal">0</div><div class="l">Verificações</div></div>
+        <div class="stat-chip ok"><div class="n" id="repOk">0</div><div class="l">Aprovadas</div></div>
+        <div class="stat-chip pend" style="border-color:var(--red-dim);"><div class="n" id="repFail" style="color:var(--red);">0</div><div class="l">Reprovadas</div></div>
+      </div>
+      <div id="reportList"></div>
+      <button class="btn-primary" id="sendReportBtn" style="margin-top:16px;">Enviar Relatório</button>
+    </section>
+
     <!-- ===== VIEW: MÁQUINAS ===== -->
     <section class="view" id="view-maquinas">
       <div class="section-label">Máquinas cadastradas</div>
@@ -432,6 +617,10 @@
     <button class="active" data-nav="lista">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="4" rx="1"/><rect x="3" y="10" width="18" height="4" rx="1"/><rect x="3" y="16" width="18" height="4" rx="1"/></svg>
       Casos
+    </button>
+    <button data-nav="pecas">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h12l2 5-8 13L4 8z"/><path d="M4 8h16M9.5 3L12 8l2.5-5"/></svg>
+      Peças
     </button>
     <div class="fab-slot">
       <div class="fab" id="fabAdd">
@@ -466,6 +655,8 @@
 
   const STORAGE_KEY = "azurmetal_cases_v1";
   const MACHINES_KEY = "azurmetal_machines_v1";
+  const PARTS_KEY = "azurmetal_parts_v1";
+  const VERIF_KEY = "azurmetal_verificacoes_v1";
   const DEFAULT_MACHINES = ["Máquina 1", "Máquina 2"];
   const MAX_PHOTOS = 4;
   const MAX_PHOTO_DIM = 1000;
@@ -474,6 +665,8 @@
   let state = {
     cases: [],
     machines: [...DEFAULT_MACHINES],
+    parts: [],
+    verifications: [],
     view: "lista",
     editingId: null,
     formPhotos: [],
@@ -482,7 +675,13 @@
     filterMachine: "todos",
     filterStatus: "todos",
     detailId: null,
-    pendingDeleteId: null
+    pendingDeleteId: null,
+    editingPartId: null,
+    partSearchQuery: "",
+    detailPartId: null,
+    verifyingPartId: null,
+    verifCheck: { dimensoes: null, furos: null, angulos: null },
+    verifReturnView: "pecas"
   };
 
   // ---------- helpers ----------
@@ -510,6 +709,14 @@
       const raw2 = localStorage.getItem(MACHINES_KEY);
       state.machines = raw2 ? JSON.parse(raw2) : [...DEFAULT_MACHINES];
     }catch(e){ state.machines = [...DEFAULT_MACHINES]; }
+    try{
+      const raw3 = localStorage.getItem(PARTS_KEY);
+      state.parts = raw3 ? JSON.parse(raw3) : [];
+    }catch(e){ state.parts = []; }
+    try{
+      const raw4 = localStorage.getItem(VERIF_KEY);
+      state.verifications = raw4 ? JSON.parse(raw4) : [];
+    }catch(e){ state.verifications = []; }
   }
   async function saveCases(){
     try{
@@ -520,6 +727,16 @@
     try{
       localStorage.setItem(MACHINES_KEY, JSON.stringify(state.machines));
     }catch(e){ showToast('Erro ao guardar máquinas.'); }
+  }
+  async function saveParts(){
+    try{
+      localStorage.setItem(PARTS_KEY, JSON.stringify(state.parts));
+    }catch(e){ showToast('Erro ao guardar peças.'); }
+  }
+  async function saveVerifications(){
+    try{
+      localStorage.setItem(VERIF_KEY, JSON.stringify(state.verifications));
+    }catch(e){ showToast('Erro ao guardar verificação.'); }
   }
 
   // ---------- navigation ----------
@@ -532,6 +749,8 @@
     });
     window.scrollTo(0,0);
     if(view === 'maquinas') renderMachinesView();
+    if(view === 'pecas') renderPartsList();
+    if(view === 'relatorio') renderReportView();
   }
 
   // ---------- render: stats ----------
@@ -785,6 +1004,7 @@
     document.getElementById('confirmTitle').textContent = 'Apagar ocorrência?';
     document.getElementById('confirmText').textContent = 'Esta ação remove o caso e as fotos associadas. Não pode ser desfeita.';
     document.getElementById('confirmModal').classList.add('active');
+    document.getElementById('confirmYes').onclick = doDelete;
   }
   async function doDelete(){
     state.cases = state.cases.filter(c=>c.id !== state.pendingDeleteId);
@@ -793,6 +1013,265 @@
     renderStats(); renderMachineFilterChips(); renderList();
     showToast('Ocorrência apagada.');
     goto('lista');
+  }
+
+  // ---------- PEÇAS: helpers ----------
+  function fmtDimResumo(p){
+    const parts = [];
+    if(p.comprimento) parts.push(p.comprimento + 'mm');
+    if(p.largura) parts.push(p.largura + 'mm');
+    if(p.espessura) parts.push(p.espessura + 'mm esp.');
+    return parts.join(' × ');
+  }
+
+  // ---------- PEÇAS: lista + busca ----------
+  function renderPartsList(){
+    const list = document.getElementById('partList');
+    let items = [...state.parts];
+    if(state.partSearchQuery.trim()){
+      const q = state.partSearchQuery.trim().toLowerCase();
+      items = items.filter(p => (p.numero||'').toLowerCase().includes(q));
+    }
+    items.sort((a,b)=> (a.numero||'').localeCompare(b.numero||'', 'pt', {numeric:true}));
+
+    if(items.length === 0){
+      list.innerHTML = `
+        <div class="empty-state">
+          <div class="icon">▤</div>
+          <div class="t">${state.parts.length===0 ? 'Nenhuma peça cadastrada' : 'Peça não encontrada'}</div>
+          <div class="d">${state.parts.length===0 ? 'Toque em "+ Nova Peça" para registar a primeira peça do mapa de corte.' : 'Confira o número digitado ou cadastre esta peça.'}</div>
+        </div>`;
+      return;
+    }
+
+    list.innerHTML = items.map(p => `
+      <div class="part-card" data-id="${p.id}">
+        <div class="part-head">
+          <div class="part-num">${esc(p.numero)}</div>
+          <div class="part-dim">${esc(fmtDimResumo(p))}</div>
+        </div>
+        ${(p.angulos || p.furos) ? `<div class="part-extra">${p.angulos ? `<b>Ângulos:</b> ${esc(p.angulos)}` : ''}${p.angulos && p.furos ? ' · ' : ''}${p.furos ? `<b>Furos:</b> ${esc(p.furos)}` : ''}</div>` : ''}
+      </div>
+    `).join('');
+
+    list.querySelectorAll('.part-card').forEach(el=>{
+      el.onclick = ()=> openPartDetail(el.dataset.id);
+    });
+  }
+
+  // ---------- PEÇAS: form nova/editar ----------
+  function openNewPartForm(){
+    state.editingPartId = null;
+    document.getElementById('partFormTitleLabel').textContent = 'Nova Peça';
+    document.getElementById('pNumero').value = '';
+    document.getElementById('pComprimento').value = '';
+    document.getElementById('pLargura').value = '';
+    document.getElementById('pEspessura').value = '';
+    document.getElementById('pAngulos').value = '';
+    document.getElementById('pFuros').value = '';
+    document.getElementById('pObs').value = '';
+    goto('peca-form');
+  }
+
+  function openEditPartForm(id){
+    const p = state.parts.find(x=>x.id===id);
+    if(!p) return;
+    state.editingPartId = id;
+    document.getElementById('partFormTitleLabel').textContent = 'Editar Peça';
+    document.getElementById('pNumero').value = p.numero || '';
+    document.getElementById('pComprimento').value = p.comprimento || '';
+    document.getElementById('pLargura').value = p.largura || '';
+    document.getElementById('pEspessura').value = p.espessura || '';
+    document.getElementById('pAngulos').value = p.angulos || '';
+    document.getElementById('pFuros').value = p.furos || '';
+    document.getElementById('pObs').value = p.obs || '';
+    goto('peca-form');
+  }
+
+  async function savePartForm(){
+    const numero = document.getElementById('pNumero').value.trim();
+    if(!numero){ showToast('Digite o número da peça antes de guardar.'); document.getElementById('pNumero').focus(); return; }
+    const comprimento = document.getElementById('pComprimento').value.trim();
+    const largura = document.getElementById('pLargura').value.trim();
+    const espessura = document.getElementById('pEspessura').value.trim();
+    const angulos = document.getElementById('pAngulos').value.trim();
+    const furos = document.getElementById('pFuros').value.trim();
+    const obs = document.getElementById('pObs').value.trim();
+    const now = Date.now();
+
+    if(state.editingPartId){
+      const p = state.parts.find(x=>x.id===state.editingPartId);
+      Object.assign(p, {numero, comprimento, largura, espessura, angulos, furos, obs, updatedAt: now});
+      showToast('Peça atualizada.');
+    } else {
+      const dup = state.parts.find(x => (x.numero||'').toLowerCase() === numero.toLowerCase());
+      if(dup){ showToast('Já existe uma peça com este número. A editar essa peça.'); state.editingPartId = dup.id; Object.assign(dup, {comprimento, largura, espessura, angulos, furos, obs, updatedAt: now}); }
+      else {
+        state.parts.push({ id: uid(), numero, comprimento, largura, espessura, angulos, furos, obs, createdAt: now, updatedAt: now });
+        showToast('Peça registada.');
+      }
+    }
+    await saveParts();
+    goto('pecas');
+  }
+
+  // ---------- PEÇAS: detalhe ----------
+  function openPartDetail(id){
+    state.detailPartId = id;
+    const p = state.parts.find(x=>x.id===id);
+    if(!p) return;
+    const verifs = state.verifications.filter(v=>v.pecaId===id).sort((a,b)=>b.createdAt-a.createdAt);
+    const el = document.getElementById('partDetalheContent');
+    el.innerHTML = `
+      <div class="detail-ticket">
+        <div class="detail-inner">
+          <div class="detail-ref">Peça</div>
+          <div class="detail-title">${esc(p.numero)}</div>
+          <div class="spec-grid" style="margin-bottom:14px;">
+            <div class="spec-box"><div class="l">Comprimento</div><div class="v">${p.comprimento ? esc(p.comprimento)+'mm' : '—'}</div></div>
+            <div class="spec-box"><div class="l">Largura</div><div class="v">${p.largura ? esc(p.largura)+'mm' : '—'}</div></div>
+            <div class="spec-box"><div class="l">Espessura</div><div class="v">${p.espessura ? esc(p.espessura)+'mm' : '—'}</div></div>
+            <div class="spec-box"><div class="l">Ângulos</div><div class="v" style="font-size:12.5px;">${p.angulos ? esc(p.angulos) : '—'}</div></div>
+          </div>
+          ${p.furos ? `<div class="detail-block"><h4>Furos</h4><p>${esc(p.furos)}</p></div>` : ''}
+          ${p.obs ? `<div class="detail-block"><h4>Observações</h4><p>${esc(p.obs)}</p></div>` : ''}
+          <div class="detail-actions">
+            <button class="btn-secondary" id="editPartBtn">Editar</button>
+            <button class="btn-secondary btn-danger" id="deletePartBtn">Apagar</button>
+          </div>
+          <button class="btn-primary" id="startVerifBtn" style="margin-top:14px;">Verificar Lote</button>
+        </div>
+      </div>
+      ${verifs.length ? `<div class="section-label">Verificações anteriores</div>` + verifs.map(v=>`
+        <div class="verif-row ${v.resultado}">
+          <div class="verif-top"><div class="vp-num">${v.lote ? esc(v.lote) : 'Sem lote'}${v.qtd ? ' · ' + esc(v.qtd) + ' pçs' : ''}</div><div class="vp-badge">${v.resultado === 'aprovado' ? 'Aprovado' : 'Reprovado'}</div></div>
+          <div class="verif-meta">${esc(v.maquina)} · ${fmtDate(v.createdAt)}${v.verificadoPor ? ' · ' + esc(v.verificadoPor) : ''}</div>
+        </div>
+      `).join('') : ''}
+    `;
+    document.getElementById('editPartBtn').onclick = ()=> openEditPartForm(id);
+    document.getElementById('deletePartBtn').onclick = ()=> askDeletePart(id);
+    document.getElementById('startVerifBtn').onclick = ()=> openVerifyForm(id, 'peca-detalhe');
+    goto('peca-detalhe');
+  }
+
+  function askDeletePart(id){
+    state.pendingDeleteId = id;
+    document.getElementById('confirmTitle').textContent = 'Apagar peça?';
+    document.getElementById('confirmText').textContent = 'Esta ação remove a ficha da peça e o histórico de verificações associado. Não pode ser desfeita.';
+    document.getElementById('confirmModal').classList.add('active');
+    document.getElementById('confirmYes').onclick = doDeletePart;
+  }
+  async function doDeletePart(){
+    state.parts = state.parts.filter(p => p.id !== state.pendingDeleteId);
+    state.verifications = state.verifications.filter(v => v.pecaId !== state.pendingDeleteId);
+    await saveParts(); await saveVerifications();
+    document.getElementById('confirmModal').classList.remove('active');
+    document.getElementById('confirmYes').onclick = doDelete;
+    showToast('Peça apagada.');
+    goto('pecas');
+  }
+
+  // ---------- VERIFICAÇÃO DE LOTE ----------
+  function openVerifyForm(partId, returnView){
+    state.verifyingPartId = partId;
+    state.verifReturnView = returnView || 'pecas';
+    const p = state.parts.find(x=>x.id===partId);
+    document.getElementById('verifPartLabel').textContent = p ? ('Peça: ' + p.numero + (fmtDimResumo(p) ? ' · ' + fmtDimResumo(p) : '')) : '';
+    const sel = document.getElementById('vMaquina');
+    sel.innerHTML = state.machines.map(m=>`<option value="${esc(m)}">${esc(m)}</option>`).join('');
+    document.getElementById('vLote').value = '';
+    document.getElementById('vQtd').value = '';
+    document.getElementById('vMedidas').value = '';
+    document.getElementById('vObs').value = '';
+    state.verifCheck = { dimensoes: null, furos: null, angulos: null };
+    document.querySelectorAll('#view-verificacao .check-toggle button').forEach(b=>b.classList.remove('active'));
+    goto('verificacao');
+  }
+
+  function setVerifCheck(key, value){
+    state.verifCheck[key] = value;
+    const toggle = document.querySelector(`.check-toggle[data-check="${key}"]`);
+    toggle.querySelectorAll('button').forEach(b=>b.classList.remove('active'));
+    toggle.querySelector(value === 'ok' ? '.on-ok' : '.on-nok').classList.add('active');
+  }
+
+  async function saveVerification(){
+    const { dimensoes, furos, angulos } = state.verifCheck;
+    if(!dimensoes || !furos || !angulos){ showToast('Preencha o checklist completo (dimensões, furos e ângulos).'); return; }
+    const p = state.parts.find(x=>x.id===state.verifyingPartId);
+    const resultado = (dimensoes==='ok' && furos==='ok' && angulos==='ok') ? 'aprovado' : 'reprovado';
+    const verificadoPor = localStorage.getItem('azurmetal_auth_v1') || '';
+    const now = Date.now();
+    state.verifications.push({
+      id: uid(),
+      pecaId: state.verifyingPartId,
+      pecaNumero: p ? p.numero : '',
+      maquina: document.getElementById('vMaquina').value,
+      lote: document.getElementById('vLote').value.trim(),
+      qtd: document.getElementById('vQtd').value.trim(),
+      medidas: document.getElementById('vMedidas').value.trim(),
+      checklist: { ...state.verifCheck },
+      resultado,
+      obs: document.getElementById('vObs').value.trim(),
+      verificadoPor,
+      createdAt: now
+    });
+    await saveVerifications();
+    showToast(resultado === 'aprovado' ? 'Verificação guardada — lote aprovado.' : 'Verificação guardada — lote reprovado.');
+    if(state.verifReturnView === 'peca-detalhe' && state.verifyingPartId){
+      openPartDetail(state.verifyingPartId);
+    } else {
+      goto('pecas');
+    }
+  }
+
+  // ---------- RELATÓRIO DO DIA ----------
+  function isToday(ts){
+    const d = new Date(ts), n = new Date();
+    return d.getFullYear()===n.getFullYear() && d.getMonth()===n.getMonth() && d.getDate()===n.getDate();
+  }
+
+  function renderReportView(){
+    const todays = state.verifications.filter(v=>isToday(v.createdAt)).sort((a,b)=>a.createdAt-b.createdAt);
+    document.getElementById('repTotal').textContent = todays.length;
+    document.getElementById('repOk').textContent = todays.filter(v=>v.resultado==='aprovado').length;
+    document.getElementById('repFail').textContent = todays.filter(v=>v.resultado==='reprovado').length;
+
+    const list = document.getElementById('reportList');
+    if(todays.length === 0){
+      list.innerHTML = `<div class="empty-state"><div class="icon">📋</div><div class="t">Sem verificações hoje</div><div class="d">Registe uma verificação de lote em Peças para ela aparecer aqui.</div></div>`;
+      return;
+    }
+    list.innerHTML = todays.map(v=>`
+      <div class="verif-row ${v.resultado}">
+        <div class="verif-top"><div class="vp-num">${esc(v.pecaNumero)}${v.lote ? ' · ' + esc(v.lote) : ''}</div><div class="vp-badge">${v.resultado==='aprovado'?'Aprovado':'Reprovado'}</div></div>
+        <div class="verif-meta">${esc(v.maquina)} · ${fmtDate(v.createdAt)}${v.qtd ? ' · ' + esc(v.qtd) + ' pçs' : ''}</div>
+      </div>
+    `).join('');
+  }
+
+  function buildReportText(){
+    const todays = state.verifications.filter(v=>isToday(v.createdAt)).sort((a,b)=>a.createdAt-b.createdAt);
+    const hoje = new Date().toLocaleDateString('pt-PT',{day:'2-digit',month:'2-digit',year:'numeric'});
+    let txt = `*Relatório do dia — ${hoje}*\n`;
+    txt += `Verificações: ${todays.length} · Aprovadas: ${todays.filter(v=>v.resultado==='aprovado').length} · Reprovadas: ${todays.filter(v=>v.resultado==='reprovado').length}\n\n`;
+    if(todays.length === 0){ txt += 'Nenhuma verificação registada hoje.'; return txt; }
+    todays.forEach((v,i)=>{
+      txt += `${i+1}. Peça ${v.pecaNumero}${v.lote ? ' (' + v.lote + ')' : ''} — ${v.resultado === 'aprovado' ? 'APROVADO' : 'REPROVADO'}\n`;
+      txt += `   Máquina: ${v.maquina}${v.qtd ? ' · Qtd: ' + v.qtd : ''}\n`;
+      if(v.medidas) txt += `   Medidas: ${v.medidas}\n`;
+      if(v.obs) txt += `   Obs: ${v.obs}\n`;
+    });
+    return txt;
+  }
+
+  async function sendReport(){
+    const text = buildReportText();
+    if(navigator.share){
+      try{ await navigator.share({ title: 'Relatório do dia', text }); return; }catch(e){ /* utilizador cancelou ou falhou, cai para WhatsApp */ }
+    }
+    window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank');
   }
 
   // ---------- machines view ----------
@@ -896,6 +1375,28 @@
     document.getElementById('saveBtn').onclick = saveForm;
     document.getElementById('addMachineBtn').onclick = addMachine;
     document.getElementById('exportBtn').onclick = exportData;
+
+    document.getElementById('partSearchInput').addEventListener('input', (e)=>{
+      state.partSearchQuery = e.target.value;
+      renderPartsList();
+    });
+    document.getElementById('newPartBtn').onclick = openNewPartForm;
+    document.getElementById('savePartBtn').onclick = savePartForm;
+    document.getElementById('reportBtn').onclick = ()=> goto('relatorio');
+
+    document.querySelectorAll('#view-verificacao .check-toggle').forEach(toggle=>{
+      const key = toggle.dataset.check;
+      toggle.querySelector('.on-ok').onclick = ()=> setVerifCheck(key, 'ok');
+      toggle.querySelector('.on-nok').onclick = ()=> setVerifCheck(key, 'falha');
+    });
+    document.getElementById('saveVerifBtn').onclick = saveVerification;
+    document.getElementById('cancelVerifBtn').onclick = ()=>{
+      goto(state.verifReturnView === 'peca-detalhe' && state.verifyingPartId ? 'peca-detalhe' : 'pecas');
+      if(state.verifReturnView === 'peca-detalhe' && state.verifyingPartId) openPartDetail(state.verifyingPartId);
+    };
+    document.getElementById('verifBackBtn').onclick = document.getElementById('cancelVerifBtn').onclick;
+
+    document.getElementById('sendReportBtn').onclick = sendReport;
     document.getElementById('logoutBtn').onclick = ()=>{
       localStorage.removeItem('azurmetal_auth_v1');
       document.getElementById('app').style.display = 'none';
@@ -938,10 +1439,12 @@
   "use strict";
   const AUTH_KEY = "azurmetal_auth_v1";
   const ACCESS_CODES = {
-    "Allan Xavier": "ALLAN501",
     "Marco": "MARCO394",
     "José": "JOSE812",
     "Joana": "JOANA157",
+    "Allan Xavier": "ALLAN501",
+    "Nuno": "NUNO214",
+    "Paulo": "PAULO368",
     "Convidado 1": "CONV1263",
     "Convidado 2": "CONV2748",
     "Convidado 3": "CONV3905",
