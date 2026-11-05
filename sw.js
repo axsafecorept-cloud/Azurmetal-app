@@ -1,5 +1,5 @@
 // Service worker do app Azurmetal — guarda o essencial para funcionar sem internet.
-const CACHE_NAME = "azurmetal-cache-v2";
+const CACHE_NAME = "azurmetal-cache-v3";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -36,7 +36,8 @@ self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;
 
   event.respondWith(
-    fetch(event.request)
+    // no-cache: pergunta sempre ao servidor se há versão nova (evita ficar preso na antiga)
+    fetch(event.request, { cache: "no-cache" })
       .then((response) => {
         // Guarda uma cópia atualizada na cache sempre que a rede responde
         const copy = response.clone();

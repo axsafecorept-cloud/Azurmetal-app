@@ -444,7 +444,7 @@
       <div class="brand-text">
         <div class="name">Azurmetal</div>
         <div class="sub">Treinamento de Operação de Automações</div>
-        <div class="sub" style="opacity:.6;margin-top:1px;">Criado por Allan Xavier</div>
+        <div class="sub" style="opacity:.6;margin-top:1px;">Criado por Allan Xavier · <span style="color:var(--red);opacity:1;">v2.1 Mapas</span></div>
       </div>
     </div>
     <div class="stat-strip">
@@ -2259,7 +2259,14 @@
   // ---------- registo do service worker (funcionamento offline) ----------
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
-      navigator.serviceWorker.register("sw.js").catch(() => {
+      let refreshing = false;
+      navigator.serviceWorker.addEventListener("controllerchange", () => {
+        // Nova versão instalada: recarrega uma vez para mostrar já a atualização
+        if (refreshing) return; refreshing = true; window.location.reload();
+      });
+      navigator.serviceWorker.register("sw.js", { updateViaCache: "none" }).then(reg => {
+        reg.update().catch(() => {});
+      }).catch(() => {
         // Se falhar (ex: aberto localmente sem servidor), o app continua a funcionar normalmente, só sem cache offline.
       });
     });
