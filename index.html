@@ -312,6 +312,88 @@
 
   /* file inputs hidden */
   #photoInputCamera, #photoInputGallery{display:none;}
+
+  /* ================= MAPAS DE CORTE ================= */
+  .mp-search input{-webkit-appearance:none;appearance:none;font-family:var(--mono);font-size:20px;font-weight:600;padding:15px 46px 15px 40px;letter-spacing:.5px;}
+  .mp-search input::placeholder{font-family:var(--body);font-size:14px;font-weight:400;letter-spacing:0;}
+  .mp-search input::-webkit-search-cancel-button{display:none;}
+  .mp-clear{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:34px;height:34px;border-radius:50%;border:none;background:var(--panel-2);color:var(--text-dim);font-size:15px;cursor:pointer;display:none;}
+  .mp-clear.show{display:block;}
+  .mp-tools{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap;}
+  .mp-seg{display:flex;background:var(--panel);border:1px solid var(--steel);border-radius:var(--radius);overflow:hidden;margin-bottom:12px;}
+  .mp-seg button{flex:1;background:transparent;border:none;color:var(--text-dim);padding:10px 0;font-size:12.5px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;cursor:pointer;}
+  .mp-seg button.active{background:var(--red);color:#fff;}
+  .mp-count{font-family:var(--mono);font-size:10.5px;color:var(--text-faint);text-transform:uppercase;letter-spacing:.8px;margin:2px 0 10px;}
+
+  .pc-card{display:flex;align-items:stretch;background:var(--panel);border:1px solid var(--steel);border-left:5px solid var(--pc,var(--steel-light));border-radius:var(--radius);margin-bottom:10px;overflow:hidden;cursor:pointer;}
+  .pc-card:active{background:var(--panel-2);}
+  .pc-n{width:76px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--panel-2);border-right:1px solid var(--steel);font-family:var(--mono);font-weight:700;font-size:28px;line-height:1;}
+  .pc-n small{font-size:9.5px;color:var(--text-faint);font-weight:500;letter-spacing:.8px;margin-bottom:4px;text-transform:uppercase;}
+  .pc-main{flex:1;padding:10px 12px;min-width:0;}
+  .pc-lbl{font-family:var(--mono);font-size:9.5px;letter-spacing:1px;color:var(--text-faint);text-transform:uppercase;display:flex;justify-content:space-between;gap:6px;}
+  .pc-ref{font-family:var(--mono);font-weight:700;font-size:32px;line-height:1.05;color:#fff;letter-spacing:1px;}
+  .pc-dim{font-family:var(--mono);font-size:16px;color:var(--amber);margin-top:3px;font-weight:700;}
+  .pc-sub{font-size:11.5px;color:var(--text-dim);margin-top:5px;font-family:var(--mono);}
+  .dv-badge{color:var(--amber);font-weight:700;}
+
+  .pf-hero{text-align:center;padding:16px 12px 16px;background:var(--panel);border:1px solid var(--steel);border-top:5px solid var(--pc,var(--red));border-radius:var(--radius);margin-bottom:12px;}
+  .pf-hero .l{font-family:var(--mono);font-size:11px;letter-spacing:1.4px;color:var(--text-dim);text-transform:uppercase;}
+  .pf-hero .ref{font-family:var(--mono);font-weight:700;font-size:68px;line-height:1.05;color:#fff;letter-spacing:3px;margin-top:4px;}
+  .pf-hero .n{display:inline-block;margin-top:8px;font-family:var(--mono);font-size:15px;font-weight:700;padding:5px 14px;border-radius:20px;border:1px solid var(--steel-light);background:var(--panel-2);}
+  .pf-hero .dims{font-family:var(--mono);font-size:26px;font-weight:700;color:var(--amber);margin-top:12px;}
+  .pf-hero .dims small{font-size:14px;color:var(--text-dim);font-weight:500;}
+  .warn-box{background:rgba(242,169,0,.09);border:1px solid rgba(242,169,0,.45);color:var(--amber);border-radius:var(--radius);padding:10px 12px;font-size:13px;line-height:1.5;margin-bottom:12px;}
+  .warn-box b{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.8px;text-transform:uppercase;margin-bottom:3px;}
+  .draw-box{background:#0f1011;border:1px solid var(--steel);border-radius:var(--radius);padding:6px;}
+  .draw-box svg{width:100%;height:auto;display:block;}
+  .draw-note{font-size:11px;color:var(--text-faint);margin-top:6px;line-height:1.4;}
+  .crop-img{width:100%;display:block;border-radius:var(--radius);border:1px solid var(--steel);background:#fff;cursor:zoom-in;}
+  .where-row{display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--panel);border:1px solid var(--steel);border-radius:var(--radius);padding:11px 13px;margin-bottom:8px;cursor:pointer;}
+  .where-row .w-pla{font-family:var(--mono);font-weight:700;font-size:16px;}
+  .where-row .w-sub{font-family:var(--mono);font-size:11px;color:var(--text-dim);margin-top:2px;}
+  .where-row .w-q{font-family:var(--mono);font-weight:700;font-size:18px;color:var(--amber);text-align:right;line-height:1.1;}
+  .where-row .w-q small{display:block;font-size:9px;color:var(--text-faint);font-weight:500;text-transform:uppercase;letter-spacing:.5px;}
+
+  .mp-card{display:flex;gap:12px;align-items:center;background:var(--panel);border:1px solid var(--steel);border-left:3px solid var(--red);border-radius:var(--radius);padding:10px 12px;margin-bottom:10px;cursor:pointer;}
+  .mp-card img{width:58px;height:74px;object-fit:cover;border-radius:2px;border:1px solid var(--steel);flex-shrink:0;background:#fff;}
+  .mp-card .mc-pla{font-family:var(--mono);font-weight:700;font-size:19px;}
+  .mp-card .mc-sub{font-family:var(--mono);font-size:11.5px;color:var(--text-dim);margin-top:3px;line-height:1.5;}
+
+  .viewer{background:#0b0b0b;border:1px solid var(--steel);border-radius:var(--radius);overflow:hidden;margin-bottom:12px;}
+  .vw-scroll{overflow:auto;max-height:64vh;-webkit-overflow-scrolling:touch;}
+  .vw-inner{position:relative;display:inline-block;vertical-align:top;}
+  .vw-inner img{display:block;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;}
+  .vw-tools{display:flex;gap:6px;padding:6px;background:var(--panel-2);border-top:1px solid var(--steel);}
+  .vw-tools button{flex:1;background:var(--panel);border:1px solid var(--steel);color:var(--text);padding:10px 0;border-radius:var(--radius);font-weight:700;font-size:14px;cursor:pointer;}
+  .vw-tools button.on{background:var(--red);border-color:var(--red);color:#fff;}
+  .crop-rect{position:absolute;border:2px solid var(--red);background:rgba(227,6,19,.18);pointer-events:none;box-shadow:0 0 0 9999px rgba(0,0,0,.35);}
+
+  .rt{width:100%;border-collapse:collapse;font-family:var(--mono);background:var(--panel);border:1px solid var(--steel);}
+  .rt th{font-size:9.5px;text-transform:uppercase;letter-spacing:.6px;color:var(--text-faint);font-weight:500;text-align:left;padding:8px 6px;border-bottom:1px solid var(--steel);}
+  .rt td{padding:10px 6px;border-bottom:1px solid var(--steel);font-size:13px;vertical-align:middle;}
+  .rt tr{cursor:pointer;}
+  .rt tr:active td{background:var(--panel-2);}
+  .rt .c-n{font-weight:700;font-size:17px;border-left:4px solid var(--pc,transparent);padding-left:8px;}
+  .rt .c-ref{font-weight:700;font-size:19px;color:#fff;}
+  .rt .c-dim{color:var(--amber);font-weight:600;}
+
+  .re-row{background:var(--panel);border:1px solid var(--steel);border-radius:var(--radius);padding:8px;margin-bottom:8px;}
+  .re-grid{display:grid;grid-template-columns:1fr 1.3fr 1.3fr 1.3fr;gap:6px;}
+  .re-grid + .re-grid{margin-top:6px;}
+  .re-row label{display:block;font-family:var(--mono);font-size:9px;color:var(--text-faint);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px;}
+  .re-row input[type=text]{width:100%;background:var(--panel-2);border:1px solid var(--steel);color:var(--text);padding:9px 6px;border-radius:var(--radius);font-family:var(--mono);font-size:14px;}
+  .re-row input[type=text]:focus{outline:none;border-color:var(--red);}
+  .re-foot{display:flex;justify-content:space-between;align-items:center;margin-top:7px;font-size:12px;color:var(--text-dim);}
+  .re-foot label{display:flex;align-items:center;gap:6px;font-family:var(--body);font-size:12px;text-transform:none;letter-spacing:0;color:var(--amber);margin:0;}
+  .re-del{background:none;border:1px solid var(--red-dim);color:var(--red);border-radius:var(--radius);padding:5px 10px;font-size:12px;cursor:pointer;}
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+  .mf-photo{width:100%;border-radius:var(--radius);border:1px solid var(--steel);display:block;background:#fff;}
+
+  .fullmodal{position:fixed;inset:0;background:var(--bg);z-index:120;display:none;flex-direction:column;padding:14px 14px calc(14px + env(safe-area-inset-bottom));overflow:auto;}
+  .fullmodal.active{display:flex;}
+  .fullmodal .hint{font-size:13px;color:var(--text-dim);line-height:1.5;margin:0 0 10px;}
+  #mpImportInput, #mfCamInput, #mfGalInput{display:none;}
 </style>
 </head>
 <body>
@@ -374,8 +456,98 @@
 
   <main>
 
+    <!-- ===== VIEW: MAPAS DE CORTE (busca rápida) ===== -->
+    <section class="view active" id="view-mapas">
+      <div class="search-wrap mp-search">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input type="search" id="mpSearch" inputmode="decimal" autocomplete="off" placeholder="Nº da peça, referência ou medida">
+        <button type="button" class="mp-clear" id="mpClear" aria-label="Limpar">✕</button>
+      </div>
+      <div class="mp-tools">
+        <div class="chip" id="mpKbdToggle">⌨ Teclado: números</div>
+        <div class="chip" id="mpImportBtn">⇪ Importar mapas</div>
+      </div>
+      <input type="file" id="mpImportInput" accept=".json,application/json">
+      <div class="filter-row" id="mpObraRow"></div>
+      <div class="mp-seg" id="mpSeg">
+        <button type="button" class="active" data-mpseg="pecas">Peças</button>
+        <button type="button" data-mpseg="mapas">Mapas</button>
+      </div>
+      <div id="mpResults"></div>
+    </section>
+
+    <!-- ===== VIEW: FICHA DA PEÇA (vinda dos mapas) ===== -->
+    <section class="view" id="view-mapa-peca">
+      <div class="form-header">
+        <div class="back-btn" id="mpPecaBack">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg>
+        </div>
+        <div class="form-title">Ficha da Peça</div>
+      </div>
+      <div id="mpPecaContent"></div>
+    </section>
+
+    <!-- ===== VIEW: MAPA (foto + tabela) ===== -->
+    <section class="view" id="view-mapa">
+      <div class="form-header">
+        <div class="back-btn" data-nav="mapas">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg>
+        </div>
+        <div class="form-title" id="mpMapaTitle">Mapa</div>
+      </div>
+      <div id="mpMapaContent"></div>
+    </section>
+
+    <!-- ===== VIEW: FORM DE MAPA (novo/editar) ===== -->
+    <section class="view" id="view-mapa-form">
+      <div class="form-header">
+        <div class="back-btn" id="mfBack">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg>
+        </div>
+        <div class="form-title" id="mfTitle">Novo Mapa</div>
+      </div>
+
+      <div class="grid-2">
+        <div class="field"><label>Obra (nº)</label><input type="text" id="mfObra" inputmode="numeric" placeholder="Ex: 4946"></div>
+        <div class="field"><label>CNC / Programa</label><input type="text" id="mfPla" placeholder="Ex: PLA8995"></div>
+      </div>
+      <div class="field"><label>Trabalho</label><input type="text" id="mfTrabalho" placeholder="Ex: 260169 - Cliente - JOB001070"></div>
+      <div class="grid-3">
+        <div class="field"><label>Chapa X</label><input type="text" id="mfX" inputmode="decimal" placeholder="6000"></div>
+        <div class="field"><label>Chapa Y</label><input type="text" id="mfY" inputmode="decimal" placeholder="1500"></div>
+        <div class="field"><label>Espessura</label><input type="text" id="mfEsp" inputmode="decimal" placeholder="12"></div>
+      </div>
+      <div class="grid-2">
+        <div class="field"><label>Material</label><input type="text" id="mfMaterial" placeholder="S275JR"></div>
+        <div class="field"><label>Tempo total</label><input type="text" id="mfTempo" placeholder="01:20:02"></div>
+      </div>
+      <div class="grid-2">
+        <div class="field"><label>Ref. do mapa</label><input type="text" id="mfRef" inputmode="numeric" placeholder="12600015001"></div>
+        <div class="field"><label>Data</label><input type="text" id="mfData" placeholder="30/10/2026"></div>
+      </div>
+
+      <div class="field">
+        <label>Foto do mapa</label>
+        <div id="mfPhotoWrap"></div>
+        <div class="grid-3" style="margin-top:8px;">
+          <button type="button" class="btn-secondary" id="mfCamBtn" style="margin:0;">📷 Câmara</button>
+          <button type="button" class="btn-secondary" id="mfGalBtn" style="margin:0;">🖼 Galeria</button>
+          <button type="button" class="btn-secondary" id="mfRotBtn" style="margin:0;">⟳ Rodar</button>
+        </div>
+        <input type="file" id="mfCamInput" accept="image/*" capture="environment">
+        <input type="file" id="mfGalInput" accept="image/*">
+      </div>
+
+      <div class="section-label">Peças do mapa</div>
+      <div id="mfRows"></div>
+      <button type="button" class="btn-secondary" id="mfAddRow">+ Adicionar linha</button>
+
+      <button class="btn-primary" id="mfSave" style="margin-top:16px;">Guardar Mapa</button>
+      <button class="btn-secondary" id="mfCancel">Cancelar</button>
+    </section>
+
     <!-- ===== VIEW: LISTA ===== -->
-    <section class="view active" id="view-lista">
+    <section class="view" id="view-lista">
       <div class="search-wrap">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
         <input type="text" id="searchInput" placeholder="Buscar por título, máquina ou palavra-chave...">
@@ -606,6 +778,7 @@
 
       <div class="section-label">Dados</div>
       <button class="btn-secondary" id="exportBtn">Exportar backup (.json)</button>
+      <button class="btn-secondary" id="exportMapasBtn">Exportar mapas de corte (.json)</button>
 
       <div class="section-label">Conta</div>
       <button class="btn-secondary btn-danger" id="logoutBtn">Sair / Trocar utilizador</button>
@@ -614,7 +787,11 @@
   </main>
 
   <nav class="bottombar">
-    <button class="active" data-nav="lista">
+    <button class="active" data-nav="mapas">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 10h18M10 10v11M15 3v7"/></svg>
+      Mapas
+    </button>
+    <button data-nav="lista">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="4" rx="1"/><rect x="3" y="10" width="18" height="4" rx="1"/><rect x="3" y="16" width="18" height="4" rx="1"/></svg>
       Casos
     </button>
@@ -645,6 +822,19 @@
     <button class="btn-primary" style="background:var(--red)" id="confirmYes">Apagar</button>
     <button class="btn-secondary" id="confirmNo">Cancelar</button>
   </div>
+</div>
+
+<div class="fullmodal" id="cropModal">
+  <div class="form-header">
+    <div class="back-btn" id="cropClose">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </div>
+    <div class="form-title" id="cropTitle">Recortar peça</div>
+  </div>
+  <p class="hint">Use <b>+</b> para aproximar e arraste a foto até ver a peça. Depois toque em <b>✂ Recortar</b> e desenhe um retângulo à volta dela.</p>
+  <div id="cropViewer"></div>
+  <button class="btn-primary" id="cropSave">Guardar recorte</button>
+  <button class="btn-secondary" id="cropCancel">Cancelar</button>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -744,10 +934,12 @@
     state.view = view;
     document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
     document.getElementById('view-'+view).classList.add('active');
+    const navKey = view.indexOf('mapa') === 0 ? 'mapas' : view;
     document.querySelectorAll('nav.bottombar > button[data-nav]').forEach(b=>{
-      b.classList.toggle('active', b.dataset.nav === view);
+      b.classList.toggle('active', b.dataset.nav === navKey);
     });
     window.scrollTo(0,0);
+    if(view === 'mapas') renderMapasView();
     if(view === 'maquinas') renderMachinesView();
     if(view === 'pecas') renderPartsList();
     if(view === 'relatorio') renderReportView();
@@ -1333,12 +1525,653 @@
     showToast('Backup exportado.');
   }
 
+  // =====================================================================
+  // ================= MAPAS DE CORTE (Lantek / plasma) ===================
+  // =====================================================================
+  // Fotos dos mapas são grandes demais para o localStorage, por isso os
+  // mapas ficam no IndexedDB deste telemóvel (nada é enviado para fora).
+  const MP_DB = 'azurmetal_db', MP_STORE = 'mapas';
+  const MP_PHOTO_DIM = 2200, MP_PHOTO_Q = 0.86, MP_CROP_DIM = 900;
+  const mp = {
+    mapas: [], index: [], query: '', obra: 'todas', seg: 'pecas', kbd: 'num',
+    mapaId: null, pecaKey: null, back: { view:'mapas' },
+    form: null, crop: null
+  };
+
+  function idbOpen(){
+    return new Promise((res, rej)=>{
+      if(!('indexedDB' in window)) return rej(new Error('sem IndexedDB'));
+      const r = indexedDB.open(MP_DB, 1);
+      r.onupgradeneeded = ()=>{ const db = r.result; if(!db.objectStoreNames.contains(MP_STORE)) db.createObjectStore(MP_STORE, {keyPath:'id'}); };
+      r.onsuccess = ()=> res(r.result);
+      r.onerror = ()=> rej(r.error);
+    });
+  }
+  async function idbTx(mode, fn){
+    const db = await idbOpen();
+    return new Promise((res, rej)=>{
+      const tx = db.transaction(MP_STORE, mode);
+      const out = fn(tx.objectStore(MP_STORE));
+      tx.oncomplete = ()=> res(out && out.result !== undefined ? out.result : out);
+      tx.onerror = ()=> rej(tx.error);
+      tx.onabort = ()=> rej(tx.error);
+    });
+  }
+  async function loadMapas(){
+    try{
+      mp.mapas = (await idbTx('readonly', s=> s.getAll())) || [];
+      if(navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(()=>{});
+    }catch(e){ mp.mapas = []; showToast('Não foi possível abrir os mapas guardados.'); }
+    buildIndex();
+  }
+  async function putMapa(m){
+    try{ await idbTx('readwrite', s=> s.put(m)); return true; }
+    catch(e){ showToast('Erro ao guardar o mapa (espaço cheio?).'); return false; }
+  }
+  async function delMapa(id){
+    try{ await idbTx('readwrite', s=> s.delete(id)); }catch(e){}
+  }
+
+  // ---------- helpers ----------
+  function num(v){ if(v===null||v===undefined||v==='') return null; const n = parseFloat(String(v).replace(',','.')); return isNaN(n) ? null : n; }
+  function fmtN(v){ const n = num(v); if(n===null) return '—'; return String(Math.round(n*1000)/1000).replace('.',','); }
+  function fmtDims(a,b){ if(num(a)===null && num(b)===null) return '—'; return fmtN(a) + ' × ' + fmtN(b); }
+  function keyOf(obra, ref){ return (obra||'') + '|' + (ref||''); }
+  function sameDim(x, y){ return num(x)!==null && num(y)!==null && Math.abs(num(x)-num(y)) < 0.011; }
+
+  // Junta as linhas de todos os mapas: uma entrada por referência (por obra).
+  // Se mapas diferentes disserem coisas diferentes, NÃO escolhe um valor em silêncio:
+  // marca a peça como "a confirmar" e mostra a divergência.
+  function buildIndex(){
+    const byKey = new Map();
+    mp.mapas.forEach(m=>{
+      (m.rows||[]).forEach(r=>{
+        if(!r.ref && !r.n) return;
+        const k = keyOf(m.obra, r.ref || ('#'+r.n));
+        let e = byKey.get(k);
+        if(!e){
+          e = { key:k, obra:m.obra||'', ref:r.ref||'', n:r.n||'', a:r.a, b:r.b, esp:m.esp, material:m.material||'',
+                peso:r.peso, total:r.total, faltam:r.faltam, cor:r.cor||'', forma:r.forma||'',
+                duvida: r.conf==='duvida', notas: [], ocorr: [], crop:null };
+          byKey.set(k, e);
+        } else {
+          const diffs = [];
+          if(r.n && e.n && String(r.n)!==String(e.n)) diffs.push('nº no mapa #' + r.n + ' (antes #' + e.n + ')');
+          if((r.a && e.a && !sameDim(r.a,e.a)) || (r.b && e.b && !sameDim(r.b,e.b))) diffs.push('medida ' + fmtDims(r.a,r.b) + ' (antes ' + fmtDims(e.a,e.b) + ')');
+          if(m.esp && e.esp && !sameDim(m.esp, e.esp)) diffs.push('espessura ' + fmtN(m.esp) + ' (antes ' + fmtN(e.esp) + ')');
+          if(diffs.length){ e.duvida = true; e.notas.push('Divergência no ' + (m.pla||'mapa') + ': ' + diffs.join('; ') + '.'); }
+          if(!e.cor && r.cor) e.cor = r.cor;
+          if(!e.forma && r.forma) e.forma = r.forma;
+          if(r.conf==='duvida') e.duvida = true;
+        }
+        if(r.nota) e.notas.push((m.pla ? m.pla + ': ' : '') + r.nota);
+        if(r.conf==='duvida' && !r.nota) e.notas.push((m.pla ? m.pla + ': ' : '') + 'leitura da linha pouco nítida no papel.');
+        if(!e.crop && m.crops && m.crops[e.ref || ('#'+e.n)]) e.crop = { mapaId:m.id, src:m.crops[e.ref || ('#'+e.n)] };
+        e.ocorr.push({ mapaId:m.id, pla:m.pla||'', chapa:r.chapa, x:m.chapaX, y:m.chapaY, esp:m.esp });
+      });
+    });
+    mp.index = [...byKey.values()];
+  }
+
+  function obrasList(){ return [...new Set(mp.mapas.map(m=>m.obra).filter(Boolean))].sort(); }
+
+  // ---------- busca ----------
+  function searchPieces(qRaw){
+    let items = mp.index.filter(p=> mp.obra==='todas' || p.obra===mp.obra);
+    let q = (qRaw||'').trim().toLowerCase().replace(/mm/g,'').replace(/,/g,'.').trim();
+    if(!q){
+      return items.sort((a,b)=> (num(a.n)||999) - (num(b.n)||999) || String(a.ref).localeCompare(String(b.ref)));
+    }
+    // "#14" = só o número do mapa
+    const onlyN = q[0]==='#';
+    if(onlyN) q = q.slice(1).trim();
+    // "466x90", "466 90", "466*90" = duas medidas, em qualquer ordem
+    const dm = q.match(/^(\d+(?:\.\d+)?)\s*[x×*\s]\s*(\d+(?:\.\d+)?)$/);
+    const scored = [];
+    items.forEach(p=>{
+      let s = 0;
+      const ref = String(p.ref||'').toLowerCase(), n = String(p.n||'').toLowerCase();
+      const A = num(p.a), B = num(p.b);
+      if(dm){
+        const d1 = +dm[1], d2 = +dm[2], t = (dm[1].includes('.')||dm[2].includes('.')) ? 0.06 : 1.01;
+        const hit = (x,y)=> A!==null && B!==null && Math.abs(A-x)<=t && Math.abs(B-y)<=t;
+        if(hit(d1,d2) || hit(d2,d1)) s = 90;
+      } else if(onlyN){
+        if(n === q) s = 100;
+      } else {
+        if(n === q) s = 100;
+        else if(ref === q) s = 96;
+        else if(ref.startsWith(q)) s = 70;
+        if(/^\d+(\.\d+)?$/.test(q)){
+          const v = +q, t = q.includes('.') ? 0.06 : 1.01;
+          if((A!==null && Math.abs(A-v)<=t) || (B!==null && Math.abs(B-v)<=t)) s = Math.max(s, 55);
+        }
+        if(s===0 && p.ocorr.some(o=> String(o.pla).toLowerCase().includes(q))) s = 45;
+        if(s===0 && String(p.obra).toLowerCase()===q) s = 35;
+        if(s===0 && q.length>=3 && String(p.material).toLowerCase().includes(q)) s = 20;
+      }
+      if(s>0) scored.push({p, s});
+    });
+    scored.sort((x,y)=> y.s - x.s || (num(x.p.n)||999) - (num(y.p.n)||999));
+    return scored.map(x=>x.p);
+  }
+
+  // ---------- render: ecrã principal ----------
+  function renderMapasView(){
+    const obras = obrasList();
+    if(mp.obra!=='todas' && !obras.includes(mp.obra)) mp.obra = 'todas';
+    const row = document.getElementById('mpObraRow');
+    row.style.display = obras.length > 1 ? 'flex' : 'none';
+    row.innerHTML = `<div class="chip ${mp.obra==='todas'?'active':''}" data-obra="todas">Todas as obras</div>` +
+      obras.map(o=>`<div class="chip ${mp.obra===o?'active':''}" data-obra="${esc(o)}">Obra ${esc(o)}</div>`).join('');
+    row.querySelectorAll('.chip').forEach(c=> c.onclick = ()=>{ mp.obra = c.dataset.obra; renderMapasView(); });
+    document.querySelectorAll('#mpSeg button').forEach(b=> b.classList.toggle('active', b.dataset.mpseg===mp.seg));
+    document.getElementById('mpClear').classList.toggle('show', !!mp.query);
+    if(mp.seg==='mapas' && !mp.query) renderMapasList(); else renderPieceResults();
+  }
+
+  function pieceCard(p){
+    const where = [...new Set(p.ocorr.map(o=>o.pla).filter(Boolean))].join(' · ');
+    return `
+      <div class="pc-card" data-key="${esc(p.key)}" style="--pc:${esc(p.cor||'')}">
+        <div class="pc-n"><small>No mapa</small>${esc(p.n ? '#'+p.n : '—')}</div>
+        <div class="pc-main">
+          <div class="pc-lbl"><span>Escrever na peça</span>${p.duvida ? '<span class="dv-badge">⚠ confirmar</span>' : ''}</div>
+          <div class="pc-ref">${esc(p.ref||'?')}</div>
+          <div class="pc-dim">${fmtDims(p.a,p.b)}${p.esp ? ' · ' + fmtN(p.esp) + ' mm' : ''}</div>
+          <div class="pc-sub">${p.obra ? 'Obra ' + esc(p.obra) + ' · ' : ''}${esc(where)}${p.total ? ' · total ' + esc(String(p.total)) + ' pçs' : ''}</div>
+        </div>
+      </div>`;
+  }
+
+  function renderPieceResults(){
+    const box = document.getElementById('mpResults');
+    if(mp.mapas.length===0){
+      box.innerHTML = `<div class="empty-state"><div class="icon">▦</div><div class="t">Nenhum mapa ainda</div>
+        <div class="d">Toque em <b>⇪ Importar mapas</b> para carregar um ficheiro de mapas, ou no botão vermelho <b>+</b> para criar um a partir da foto.</div></div>`;
+      return;
+    }
+    const res = searchPieces(mp.query);
+    if(res.length===0){
+      box.innerHTML = `<div class="empty-state"><div class="icon">?</div><div class="t">Nada encontrado</div>
+        <div class="d">Experimente o número da peça (ex: 14), a referência (ex: 1053) ou as medidas (ex: 466 90).</div></div>`;
+      return;
+    }
+    const nMapas = new Set(res.flatMap(p=>p.ocorr.map(o=>o.mapaId))).size;
+    box.innerHTML = `<div class="mp-count">${res.length} peça${res.length>1?'s':''} · ${nMapas} mapa${nMapas>1?'s':''}</div>` + res.map(pieceCard).join('');
+    box.querySelectorAll('.pc-card').forEach(el=> el.onclick = ()=> openPeca(el.dataset.key, {view:'mapas'}));
+  }
+
+  function renderMapasList(){
+    const box = document.getElementById('mpResults');
+    const list = mp.mapas.filter(m=> mp.obra==='todas' || m.obra===mp.obra)
+      .sort((a,b)=> String(a.pla).localeCompare(String(b.pla), 'pt', {numeric:true}));
+    if(list.length===0){
+      box.innerHTML = `<div class="empty-state"><div class="icon">▦</div><div class="t">Nenhum mapa</div><div class="d">Importe um ficheiro de mapas ou toque no + vermelho.</div></div>`;
+      return;
+    }
+    box.innerHTML = `<div class="mp-count">${list.length} mapa${list.length>1?'s':''}</div>` + list.map(m=>`
+      <div class="mp-card" data-id="${esc(m.id)}">
+        ${m.foto ? `<img src="${m.foto}" alt="">` : ''}
+        <div style="flex:1;min-width:0;">
+          <div class="mc-pla">${esc(m.pla||'Mapa sem nome')}</div>
+          <div class="mc-sub">Chapa ${fmtN(m.chapaX)} × ${fmtN(m.chapaY)} × ${fmtN(m.esp)} mm<br>
+          ${m.obra ? 'Obra ' + esc(m.obra) + ' · ' : ''}${(m.rows||[]).length} referências${m.tempo ? ' · ' + esc(m.tempo) : ''}</div>
+        </div>
+      </div>`).join('');
+    box.querySelectorAll('.mp-card').forEach(el=> el.onclick = ()=> openMapa(el.dataset.id));
+  }
+
+  // ---------- desenho esquemático da peça ----------
+  function pieceSVG(p){
+    const A = num(p.a), B = num(p.b);
+    if(A===null || B===null || A<=0 || B<=0) return '';
+    const W = 360, H = 250, maxW = 240, maxH = 150;
+    const s = Math.min(maxW/A, maxH/B);
+    const w = A*s, h = B*s, x = (W-w)/2 - 12, y = (H-h)/2 + 10;
+    const col = p.cor || '#8a9099';
+    const round = p.forma==='redonda';
+    const arrowH = (x1,x2,yy)=> `<line x1="${x1}" y1="${yy}" x2="${x2}" y2="${yy}" stroke="#f2a900" stroke-width="1.4"/>
+      <path d="M${x1} ${yy} l7 -4 v8z M${x2} ${yy} l-7 -4 v8z" fill="#f2a900"/>`;
+    const arrowV = (y1,y2,xx)=> `<line x1="${xx}" y1="${y1}" x2="${xx}" y2="${y2}" stroke="#f2a900" stroke-width="1.4"/>
+      <path d="M${xx} ${y1} l-4 7 h8z M${xx} ${y2} l-4 -7 h8z" fill="#f2a900"/>`;
+    const shape = round
+      ? `<ellipse cx="${x+w/2}" cy="${y+h/2}" rx="${w/2}" ry="${h/2}" fill="${col}" fill-opacity=".3" stroke="${col}" stroke-width="2.5"/>`
+      : `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="2" fill="${col}" fill-opacity=".3" stroke="${col}" stroke-width="2.5"/>`;
+    return `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Desenho da peça ${esc(String(p.ref))}">
+      <line x1="${x}" y1="${y-6}" x2="${x}" y2="${y-30}" stroke="#555" stroke-width="1"/>
+      <line x1="${x+w}" y1="${y-6}" x2="${x+w}" y2="${y-30}" stroke="#555" stroke-width="1"/>
+      <line x1="${x+w+6}" y1="${y}" x2="${x+w+30}" y2="${y}" stroke="#555" stroke-width="1"/>
+      <line x1="${x+w+6}" y1="${y+h}" x2="${x+w+30}" y2="${y+h}" stroke="#555" stroke-width="1"/>
+      ${arrowH(x, x+w, y-22)}
+      <text x="${x+w/2}" y="${y-29}" text-anchor="middle" fill="#f2a900" font-family="JetBrains Mono,monospace" font-size="17" font-weight="700">${esc(fmtN(A))}</text>
+      ${arrowV(y, y+h, x+w+22)}
+      <text x="${x+w+30}" y="${y+h/2+6}" fill="#f2a900" font-family="JetBrains Mono,monospace" font-size="17" font-weight="700">${esc(fmtN(B))}</text>
+      ${shape}
+      <text x="${x+w/2}" y="${y+h/2-2}" text-anchor="middle" fill="#ffffff" font-family="JetBrains Mono,monospace" font-size="${Math.max(13, Math.min(30, h/3))}" font-weight="700">${esc(String(p.ref||''))}</text>
+      <text x="${x+w/2}" y="${y+h/2 + Math.max(13, Math.min(22, h/4))}" text-anchor="middle" fill="#cfcfcf" font-family="JetBrains Mono,monospace" font-size="${Math.max(10, Math.min(16, h/5))}">${p.n ? '#'+esc(String(p.n)) : ''}</text>
+      <text x="8" y="${H-8}" fill="#9a9a9a" font-family="JetBrains Mono,monospace" font-size="12">esp. ${esc(fmtN(p.esp))} mm${p.material ? ' · ' + esc(p.material) : ''}</text>
+    </svg>`;
+  }
+
+  // ---------- ficha da peça ----------
+  function openPeca(key, back){
+    const p = mp.index.find(x=>x.key===key);
+    if(!p){ showToast('Peça não encontrada.'); return; }
+    mp.pecaKey = key;
+    if(back) mp.back = back;
+    const el = document.getElementById('mpPecaContent');
+    const occ = p.ocorr.map(o=>`
+      <div class="where-row" data-mapa="${esc(o.mapaId)}">
+        <div><div class="w-pla">${esc(o.pla||'Mapa')}</div><div class="w-sub">Chapa ${fmtN(o.x)} × ${fmtN(o.y)} × ${fmtN(o.esp)}</div></div>
+        <div class="w-q"><small>nesta chapa</small>${o.chapa ? esc(String(o.chapa)) : '—'}</div>
+      </div>`).join('');
+    const notas = [...new Set(p.notas)];
+    el.innerHTML = `
+      <div class="pf-hero" style="--pc:${esc(p.cor||'')}">
+        <div class="l">Escrever na peça</div>
+        <div class="ref">${esc(p.ref||'?')}</div>
+        <div class="n">${p.n ? 'No mapa: #' + esc(String(p.n)) : 'Sem nº no mapa'}</div>
+        <div class="dims">${fmtDims(p.a,p.b)} <small>mm</small></div>
+      </div>
+      ${p.duvida ? `<div class="warn-box"><b>⚠ Confirmar no papel</b>${notas.length ? notas.map(esc).join('<br>') : 'Algum valor desta peça foi lido com dúvida.'}</div>` : ''}
+
+      <div class="section-label">Desenho</div>
+      <div class="draw-box">${pieceSVG(p) || '<div class="empty-state" style="padding:20px"><div class="d">Sem medidas para desenhar.</div></div>'}</div>
+      <div class="draw-note">Esquema feito com as medidas exteriores (${fmtDims(p.a,p.b)}). Furos, chanfros e recortes: veja a imagem da peça abaixo ou o mapa.</div>
+
+      <div class="section-label">Imagem da peça</div>
+      ${p.crop ? `<img class="crop-img" id="mpCropImg" src="${p.crop.src}" alt="Peça ${esc(String(p.ref))}">` : `<div class="draw-note" style="margin:0 0 6px;">Ainda sem imagem. Recorte a peça da foto do mapa uma vez e ela fica aqui para sempre.</div>`}
+      <button class="btn-secondary" id="mpCropBtn">✂ ${p.crop ? 'Refazer recorte' : 'Recortar da foto do mapa'}</button>
+
+      <div class="section-label">Dados</div>
+      <div class="spec-grid">
+        <div class="spec-box"><div class="l">Espessura</div><div class="v">${fmtN(p.esp)} mm</div></div>
+        <div class="spec-box"><div class="l">Material</div><div class="v">${esc(p.material||'—')}</div></div>
+        <div class="spec-box"><div class="l">Peso unitário</div><div class="v">${fmtN(p.peso)} kg</div></div>
+        <div class="spec-box"><div class="l">Total na obra</div><div class="v">${p.total ? esc(String(p.total)) + ' pçs' : '—'}</div></div>
+        <div class="spec-box"><div class="l">Obra</div><div class="v">${esc(p.obra||'—')}</div></div>
+        <div class="spec-box"><div class="l">Faltam</div><div class="v">${p.faltam!==undefined && p.faltam!=='' ? esc(String(p.faltam)) : '—'}</div></div>
+      </div>
+
+      <div class="section-label">Onde está (toque para abrir o mapa)</div>
+      ${occ}
+      <button class="btn-primary" id="mpShareBtn">Partilhar dados da peça</button>
+    `;
+    el.querySelectorAll('.where-row').forEach(r=> r.onclick = ()=> openMapa(r.dataset.mapa));
+    const ci = document.getElementById('mpCropImg');
+    if(ci) ci.onclick = ()=>{ document.getElementById('lightboxImg').src = ci.src; document.getElementById('lightbox').classList.add('active'); };
+    document.getElementById('mpCropBtn').onclick = ()=> startCrop(p);
+    document.getElementById('mpShareBtn').onclick = ()=> sharePeca(p);
+    goto('mapa-peca');
+  }
+
+  async function sharePeca(p){
+    const where = [...new Set(p.ocorr.map(o=>o.pla))].join(', ');
+    const txt = `*Peça ${p.ref}* (no mapa #${p.n})\n` +
+      `Medidas: ${fmtDims(p.a,p.b)} mm · esp. ${fmtN(p.esp)} mm\n` +
+      `Material: ${p.material||'—'} · Peso: ${fmtN(p.peso)} kg\n` +
+      `Obra ${p.obra||'—'} · Total: ${p.total||'—'} pçs\nMapas: ${where}` +
+      (p.duvida ? `\n⚠ Valores a confirmar no papel.` : '');
+    if(navigator.share){ try{ await navigator.share({ title:'Peça ' + p.ref, text: txt }); return; }catch(e){} }
+    window.open('https://wa.me/?text=' + encodeURIComponent(txt), '_blank');
+  }
+
+  // ---------- visualizador de foto com zoom (+ modo recorte) ----------
+  function makeViewer(host, src, opts){
+    opts = opts || {};
+    host.innerHTML = `
+      <div class="viewer">
+        <div class="vw-scroll"><div class="vw-inner"><img alt="Mapa" draggable="false"><div class="crop-rect" style="display:none"></div></div></div>
+        <div class="vw-tools">
+          <button type="button" data-z="out">−</button>
+          <button type="button" data-z="fit">Ajustar</button>
+          <button type="button" data-z="in">+</button>
+          ${opts.crop ? '<button type="button" data-mode="1">✂ Recortar</button>' : ''}
+        </div>
+      </div>`;
+    const scroll = host.querySelector('.vw-scroll'), inner = host.querySelector('.vw-inner'),
+          img = host.querySelector('img'), rectEl = host.querySelector('.crop-rect');
+    let zoom = 1, mode = 'move', sel = null, start = null;
+    function apply(keepCenter){
+      const cw = scroll.clientWidth || 320;
+      let cx = 0.5, cy = 0.5;
+      if(keepCenter && img.clientWidth){
+        cx = (scroll.scrollLeft + scroll.clientWidth/2) / img.clientWidth;
+        cy = (scroll.scrollTop + scroll.clientHeight/2) / img.clientHeight;
+      }
+      img.style.width = Math.round(cw*zoom) + 'px';
+      if(keepCenter){
+        scroll.scrollLeft = cx*img.clientWidth - scroll.clientWidth/2;
+        scroll.scrollTop = cy*img.clientHeight - scroll.clientHeight/2;
+      }
+      drawSel();
+    }
+    function drawSel(){
+      if(!sel){ rectEl.style.display = 'none'; return; }
+      const k = img.clientWidth / img.naturalWidth;
+      Object.assign(rectEl.style, { display:'block', left:(sel.x*k)+'px', top:(sel.y*k)+'px', width:(sel.w*k)+'px', height:(sel.h*k)+'px' });
+    }
+    img.onload = ()=> apply(false);
+    img.src = src;
+    host.querySelectorAll('[data-z]').forEach(b=> b.onclick = ()=>{
+      if(b.dataset.z==='in') zoom = Math.min(6, zoom*1.5);
+      else if(b.dataset.z==='out') zoom = Math.max(1, zoom/1.5);
+      else zoom = 1;
+      apply(b.dataset.z!=='fit');
+    });
+    img.ondblclick = (e)=>{
+      if(mode==='crop') return;
+      const r = img.getBoundingClientRect();
+      const fx = (e.clientX-r.left)/r.width, fy = (e.clientY-r.top)/r.height;
+      zoom = zoom > 1.2 ? 1 : 3; apply(false);
+      scroll.scrollLeft = fx*img.clientWidth - scroll.clientWidth/2;
+      scroll.scrollTop = fy*img.clientHeight - scroll.clientHeight/2;
+    };
+    const modeBtn = host.querySelector('[data-mode]');
+    if(modeBtn) modeBtn.onclick = ()=>{
+      mode = mode==='crop' ? 'move' : 'crop';
+      modeBtn.classList.toggle('on', mode==='crop');
+      modeBtn.textContent = mode==='crop' ? '✋ Mover' : '✂ Recortar';
+      inner.style.touchAction = mode==='crop' ? 'none' : 'auto';
+    };
+    function pt(e){
+      const r = img.getBoundingClientRect(), k = img.naturalWidth / r.width;
+      return { x: Math.max(0, Math.min(img.naturalWidth, (e.clientX - r.left)*k)), y: Math.max(0, Math.min(img.naturalHeight, (e.clientY - r.top)*k)) };
+    }
+    inner.addEventListener('pointerdown', e=>{
+      if(mode!=='crop') return;
+      e.preventDefault(); inner.setPointerCapture(e.pointerId);
+      start = pt(e); sel = { x:start.x, y:start.y, w:0, h:0 }; drawSel();
+    });
+    inner.addEventListener('pointermove', e=>{
+      if(mode!=='crop' || !start) return;
+      const p = pt(e);
+      sel = { x:Math.min(start.x,p.x), y:Math.min(start.y,p.y), w:Math.abs(p.x-start.x), h:Math.abs(p.y-start.y) };
+      drawSel();
+    });
+    const end = ()=>{ start = null; };
+    inner.addEventListener('pointerup', end); inner.addEventListener('pointercancel', end);
+    return { getSel: ()=> sel, img };
+  }
+
+  function cropToDataURL(img, s){
+    const sc = Math.min(1, MP_CROP_DIM / Math.max(s.w, s.h)) * Math.max(1, Math.min(3, 420 / Math.max(s.w, s.h)));
+    const c = document.createElement('canvas');
+    c.width = Math.max(1, Math.round(s.w*sc)); c.height = Math.max(1, Math.round(s.h*sc));
+    const g = c.getContext('2d');
+    g.imageSmoothingQuality = 'high';
+    g.drawImage(img, s.x, s.y, s.w, s.h, 0, 0, c.width, c.height);
+    return c.toDataURL('image/jpeg', 0.9);
+  }
+
+  function startCrop(p){
+    const occ = p.ocorr.find(o=>{ const m = mp.mapas.find(x=>x.id===o.mapaId); return m && m.foto; });
+    if(!occ){ showToast('Nenhum mapa desta peça tem foto.'); return; }
+    const m = mp.mapas.find(x=>x.id===occ.mapaId);
+    document.getElementById('cropTitle').textContent = 'Recortar ' + (p.ref||'') + (p.n ? ' (#' + p.n + ')' : '');
+    mp.crop = { p, mapa:m, viewer:null };
+    document.getElementById('cropModal').classList.add('active');
+    mp.crop.viewer = makeViewer(document.getElementById('cropViewer'), m.foto, { crop:true });
+  }
+  function closeCrop(){
+    document.getElementById('cropModal').classList.remove('active');
+    document.getElementById('cropViewer').innerHTML = '';
+    mp.crop = null;
+  }
+  async function saveCrop(){
+    if(!mp.crop) return;
+    const s = mp.crop.viewer.getSel();
+    if(!s || s.w < 8 || s.h < 8){ showToast('Toque em ✂ Recortar e desenhe um retângulo à volta da peça.'); return; }
+    const { p, mapa } = mp.crop;
+    mapa.crops = mapa.crops || {};
+    mapa.crops[p.ref || ('#'+p.n)] = cropToDataURL(mp.crop.viewer.img, s);
+    mapa.updatedAt = Date.now();
+    if(await putMapa(mapa)){
+      closeCrop(); buildIndex(); showToast('Imagem da peça guardada.');
+      openPeca(p.key);
+    }
+  }
+
+  // ---------- mapa (foto + tabela) ----------
+  function openMapa(id){
+    const m = mp.mapas.find(x=>x.id===id);
+    if(!m) return;
+    mp.mapaId = id;
+    document.getElementById('mpMapaTitle').textContent = m.pla || 'Mapa';
+    const el = document.getElementById('mpMapaContent');
+    const rows = (m.rows||[]).slice().sort((a,b)=> (num(a.n)||999)-(num(b.n)||999));
+    el.innerHTML = `
+      <div class="spec-grid" style="margin-bottom:12px;">
+        <div class="spec-box"><div class="l">Chapa</div><div class="v" style="font-size:14px;">${fmtN(m.chapaX)} × ${fmtN(m.chapaY)} × ${fmtN(m.esp)}</div></div>
+        <div class="spec-box"><div class="l">Obra</div><div class="v">${esc(m.obra||'—')}</div></div>
+        <div class="spec-box"><div class="l">Material</div><div class="v" style="font-size:14px;">${esc(m.material||'—')}</div></div>
+        <div class="spec-box"><div class="l">Tempo total</div><div class="v" style="font-size:14px;">${esc(m.tempo||'—')}</div></div>
+        ${m.pesoTotal ? `<div class="spec-box"><div class="l">Peso chapa</div><div class="v" style="font-size:14px;">${fmtN(m.pesoTotal)} kg</div></div>` : ''}
+        ${m.aproveitamento ? `<div class="spec-box"><div class="l">Aproveitamento</div><div class="v" style="font-size:14px;">${fmtN(m.aproveitamento)} %</div></div>` : ''}
+      </div>
+      ${m.trabalho ? `<div class="draw-note" style="margin:-4px 0 12px;">${esc(m.trabalho)}${m.ref ? ' · Ref ' + esc(m.ref) : ''}${m.data ? ' · ' + esc(m.data) : ''}</div>` : ''}
+      <div id="mpMapaViewer"></div>
+      <div class="section-label">Peças deste mapa (toque para a ficha)</div>
+      <table class="rt">
+        <thead><tr><th>#</th><th>Escrever</th><th>Medidas</th><th>Chapa</th></tr></thead>
+        <tbody>${rows.map(r=>`
+          <tr data-key="${esc(keyOf(m.obra, r.ref || ('#'+r.n)))}">
+            <td class="c-n" style="--pc:${esc(r.cor||'')}">${esc(String(r.n||''))}</td>
+            <td class="c-ref">${esc(String(r.ref||'?'))}${r.conf==='duvida' ? ' <span class="dv-badge" style="font-size:12px">⚠</span>' : ''}</td>
+            <td class="c-dim">${fmtDims(r.a,r.b)}</td>
+            <td>${r.chapa ? esc(String(r.chapa)) : '—'}${r.total ? '<span style="color:var(--text-faint)">/' + esc(String(r.total)) + '</span>' : ''}</td>
+          </tr>`).join('')}</tbody>
+      </table>
+      <div class="draw-note">⚠ = linha difícil de ler no papel. Linhas que não consegui ler não aparecem: confirme sempre no mapa impresso.</div>
+      <div class="detail-actions">
+        <button class="btn-secondary" id="mpEditMapa">Editar</button>
+        <button class="btn-secondary btn-danger" id="mpDelMapa">Apagar</button>
+      </div>`;
+    if(m.foto) makeViewer(document.getElementById('mpMapaViewer'), m.foto);
+    el.querySelectorAll('tr[data-key]').forEach(tr=> tr.onclick = ()=> openPeca(tr.dataset.key, {view:'mapa', id:m.id}));
+    document.getElementById('mpEditMapa').onclick = ()=> openMapaForm(m.id);
+    document.getElementById('mpDelMapa').onclick = ()=> askDeleteMapa(m.id);
+    goto('mapa');
+  }
+
+  function askDeleteMapa(id){
+    document.getElementById('confirmTitle').textContent = 'Apagar mapa?';
+    document.getElementById('confirmText').textContent = 'Remove a foto, as peças e os recortes deste mapa. Não pode ser desfeito.';
+    document.getElementById('confirmModal').classList.add('active');
+    document.getElementById('confirmYes').onclick = async ()=>{
+      await delMapa(id);
+      mp.mapas = mp.mapas.filter(m=>m.id!==id);
+      buildIndex();
+      document.getElementById('confirmModal').classList.remove('active');
+      document.getElementById('confirmYes').onclick = doDelete;
+      showToast('Mapa apagado.');
+      goto('mapas');
+    };
+  }
+
+  // ---------- formulário de mapa ----------
+  function encodeMapPhoto(file){
+    return new Promise((resolve, reject)=>{
+      const url = URL.createObjectURL(file);
+      const img = new Image();
+      img.onload = ()=>{
+        let w = img.naturalWidth, h = img.naturalHeight;
+        const k = Math.min(1, MP_PHOTO_DIM / Math.max(w,h));
+        w = Math.round(w*k); h = Math.round(h*k);
+        const c = document.createElement('canvas'); c.width = w; c.height = h;
+        c.getContext('2d').drawImage(img, 0, 0, w, h);
+        URL.revokeObjectURL(url);
+        resolve(c.toDataURL('image/jpeg', MP_PHOTO_Q));
+      };
+      img.onerror = (e)=>{ URL.revokeObjectURL(url); reject(e); };
+      img.src = url;
+    });
+  }
+  function rotateDataURL(src){
+    return new Promise((resolve, reject)=>{
+      const img = new Image();
+      img.onload = ()=>{
+        const c = document.createElement('canvas'); c.width = img.naturalHeight; c.height = img.naturalWidth;
+        const g = c.getContext('2d'); g.translate(c.width, 0); g.rotate(Math.PI/2); g.drawImage(img, 0, 0);
+        resolve(c.toDataURL('image/jpeg', MP_PHOTO_Q));
+      };
+      img.onerror = reject; img.src = src;
+    });
+  }
+  const MF_FIELDS = { mfObra:'obra', mfPla:'pla', mfTrabalho:'trabalho', mfX:'chapaX', mfY:'chapaY', mfEsp:'esp',
+                      mfMaterial:'material', mfTempo:'tempo', mfRef:'ref', mfData:'data' };
+  function openMapaForm(id){
+    const m = id ? mp.mapas.find(x=>x.id===id) : null;
+    mp.form = { id: m ? m.id : null, foto: m ? m.foto : '', rows: m ? JSON.parse(JSON.stringify(m.rows||[])) : [] };
+    if(!m) mp.form.rows = [{},{},{}];
+    document.getElementById('mfTitle').textContent = m ? 'Editar Mapa' : 'Novo Mapa';
+    Object.entries(MF_FIELDS).forEach(([elId, f])=>{
+      document.getElementById(elId).value = m ? (m[f]!==undefined && m[f]!==null ? m[f] : '') : (f==='material' ? 'S275JR' : (f==='obra' && mp.obra!=='todas' ? mp.obra : ''));
+    });
+    renderMfPhoto(); renderMfRows();
+    goto('mapa-form');
+  }
+  function renderMfPhoto(){
+    document.getElementById('mfPhotoWrap').innerHTML = mp.form.foto
+      ? `<img class="mf-photo" src="${mp.form.foto}" alt="Foto do mapa">`
+      : `<div class="draw-note" style="margin:0;">Tire a foto com o papel bem esticado e de frente. Use ⟳ para pôr o mapa direito.</div>`;
+  }
+  const MF_ROW_FIELDS = [['n','#','numeric'],['ref','Referência','numeric'],['a','Medida A','decimal'],['b','Medida B','decimal'],
+                         ['chapa','Nesta chapa','numeric'],['total','Total','numeric'],['peso','Peso kg','decimal'],['faltam','Faltam','numeric']];
+  function readMfRows(){
+    document.querySelectorAll('#mfRows .re-row').forEach((rowEl, i)=>{
+      const r = mp.form.rows[i] || (mp.form.rows[i] = {});
+      rowEl.querySelectorAll('input[data-f]').forEach(inp=>{ r[inp.dataset.f] = inp.value.trim(); });
+      const dv = rowEl.querySelector('input[data-dv]');
+      r.conf = dv && dv.checked ? 'duvida' : 'ok';
+    });
+  }
+  function renderMfRows(){
+    const box = document.getElementById('mfRows');
+    box.innerHTML = mp.form.rows.map((r, i)=>{
+      const inp = (f)=> `<div><label>${f[1]}</label><input type="text" data-f="${f[0]}" inputmode="${f[2]}" value="${esc(r[f[0]]!==undefined && r[f[0]]!==null ? String(r[f[0]]) : '')}"></div>`;
+      return `<div class="re-row" data-i="${i}">
+        <div class="re-grid">${MF_ROW_FIELDS.slice(0,4).map(inp).join('')}</div>
+        <div class="re-grid">${MF_ROW_FIELDS.slice(4).map(inp).join('')}</div>
+        <div class="re-foot"><label><input type="checkbox" data-dv ${r.conf==='duvida'?'checked':''}> Leitura com dúvida</label>
+        <button type="button" class="re-del" data-del="${i}">Remover</button></div>
+      </div>`;
+    }).join('');
+    box.querySelectorAll('[data-del]').forEach(b=> b.onclick = ()=>{ readMfRows(); mp.form.rows.splice(+b.dataset.del, 1); renderMfRows(); });
+  }
+  async function saveMapaForm(){
+    readMfRows();
+    const data = {};
+    Object.entries(MF_FIELDS).forEach(([elId, f])=> data[f] = document.getElementById(elId).value.trim());
+    if(!data.pla && !data.obra){ showToast('Indique pelo menos a obra ou o CNC (PLA).'); return; }
+    const rows = mp.form.rows.filter(r=> (r.ref||'').trim() || (r.n||'').trim()).map(r=>{
+      const o = {}; Object.keys(r).forEach(k=>{ if(r[k]!=='' && r[k]!==undefined) o[k] = r[k]; }); return o;
+    });
+    const now = Date.now();
+    let m = mp.form.id ? mp.mapas.find(x=>x.id===mp.form.id) : null;
+    if(m){
+      // mantém a cor/forma já conhecida das linhas existentes
+      const old = {}; (m.rows||[]).forEach(r=>{ old[r.ref||('#'+r.n)] = r; });
+      rows.forEach(r=>{ const o = old[r.ref||('#'+r.n)]; if(o){ if(o.cor && !r.cor) r.cor = o.cor; if(o.forma && !r.forma) r.forma = o.forma; if(o.nota && !r.nota && r.conf==='duvida') r.nota = o.nota; } });
+      Object.assign(m, data, { rows, foto: mp.form.foto, updatedAt: now });
+    } else {
+      m = Object.assign({ id: uid(), crops:{}, createdAt: now, updatedAt: now, maquina:'TECOI_Teknos_Plasma' }, data, { rows, foto: mp.form.foto });
+      mp.mapas.push(m);
+    }
+    if(await putMapa(m)){
+      buildIndex(); showToast('Mapa guardado.'); openMapa(m.id);
+    }
+  }
+
+  // ---------- importar / exportar ----------
+  async function importMapas(file){
+    let data;
+    try{ data = JSON.parse(await file.text()); }catch(e){ showToast('Ficheiro inválido.'); return; }
+    const list = Array.isArray(data) ? data : (data && Array.isArray(data.mapas) ? data.mapas : null);
+    if(!list){ showToast('Este ficheiro não tem mapas.'); return; }
+    let novos = 0, atualizados = 0;
+    for(const raw of list){
+      const m = Object.assign({ crops:{}, rows:[] }, raw);
+      const ex = mp.mapas.find(x=> x.pla && m.pla && x.pla===m.pla && String(x.obra||'')===String(m.obra||''));
+      if(ex){
+        m.id = ex.id;
+        m.crops = Object.assign({}, ex.crops||{}, m.crops||{});   // não perde recortes já feitos
+        Object.assign(ex, m, { updatedAt: Date.now() });
+        await putMapa(ex); atualizados++;
+      } else {
+        m.id = m.id && !mp.mapas.some(x=>x.id===m.id) ? m.id : uid();
+        m.createdAt = m.createdAt || Date.now(); m.updatedAt = Date.now();
+        mp.mapas.push(m); await putMapa(m); novos++;
+      }
+    }
+    buildIndex(); renderMapasView();
+    showToast(`Importado: ${novos} novo${novos!==1?'s':''}, ${atualizados} atualizado${atualizados!==1?'s':''}.`);
+  }
+  function exportMapas(){
+    const payload = { type:'azurmetal-mapas', version:1, exportedAt:new Date().toISOString(), mapas: mp.mapas };
+    const blob = new Blob([JSON.stringify(payload)], {type:'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'azurmetal_mapas_' + new Date().toISOString().slice(0,10) + '.json';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showToast('Mapas exportados.');
+  }
+
+  function bindMapasEvents(){
+    const s = document.getElementById('mpSearch');
+    s.addEventListener('input', ()=>{ mp.query = s.value; renderMapasView(); });
+    s.addEventListener('keydown', e=>{ if(e.key==='Enter') s.blur(); });
+    document.getElementById('mpClear').onclick = ()=>{ s.value = ''; mp.query = ''; renderMapasView(); s.focus(); };
+    document.getElementById('mpKbdToggle').onclick = ()=>{
+      mp.kbd = mp.kbd==='num' ? 'txt' : 'num';
+      s.setAttribute('inputmode', mp.kbd==='num' ? 'decimal' : 'text');
+      document.getElementById('mpKbdToggle').textContent = mp.kbd==='num' ? '⌨ Teclado: números' : '⌨ Teclado: letras';
+      s.blur(); setTimeout(()=> s.focus(), 60);
+    };
+    document.querySelectorAll('#mpSeg button').forEach(b=> b.onclick = ()=>{ mp.seg = b.dataset.mpseg; renderMapasView(); });
+    document.getElementById('mpImportBtn').onclick = ()=> document.getElementById('mpImportInput').click();
+    document.getElementById('mpImportInput').onchange = (e)=>{ if(e.target.files[0]) importMapas(e.target.files[0]); e.target.value = ''; };
+    document.getElementById('exportMapasBtn').onclick = exportMapas;
+
+    document.getElementById('mpPecaBack').onclick = ()=>{
+      if(mp.back.view==='mapa' && mp.back.id) openMapa(mp.back.id); else goto('mapas');
+    };
+    document.getElementById('cropClose').onclick = closeCrop;
+    document.getElementById('cropCancel').onclick = closeCrop;
+    document.getElementById('cropSave').onclick = saveCrop;
+
+    const leaveForm = ()=>{ if(mp.form && mp.form.id) openMapa(mp.form.id); else goto('mapas'); };
+    document.getElementById('mfBack').onclick = leaveForm;
+    document.getElementById('mfCancel').onclick = leaveForm;
+    document.getElementById('mfSave').onclick = saveMapaForm;
+    document.getElementById('mfAddRow').onclick = ()=>{ readMfRows(); mp.form.rows.push({}); renderMfRows(); };
+    document.getElementById('mfCamBtn').onclick = ()=> document.getElementById('mfCamInput').click();
+    document.getElementById('mfGalBtn').onclick = ()=> document.getElementById('mfGalInput').click();
+    const onPhoto = async (e)=>{
+      const f = e.target.files && e.target.files[0]; e.target.value = '';
+      if(!f) return;
+      try{ mp.form.foto = await encodeMapPhoto(f); renderMfPhoto(); }catch(err){ showToast('Não foi possível ler a foto.'); }
+    };
+    document.getElementById('mfCamInput').onchange = onPhoto;
+    document.getElementById('mfGalInput').onchange = onPhoto;
+    document.getElementById('mfRotBtn').onclick = async ()=>{
+      if(!mp.form.foto){ showToast('Adicione primeiro a foto.'); return; }
+      mp.form.foto = await rotateDataURL(mp.form.foto); renderMfPhoto();
+    };
+  }
+
   // ---------- wire up ----------
   function bindEvents(){
     document.querySelectorAll('[data-nav]').forEach(el=>{
       el.addEventListener('click', ()=> goto(el.dataset.nav));
     });
-    document.getElementById('fabAdd').onclick = openNewForm;
+    document.getElementById('fabAdd').onclick = ()=>{
+      if(state.view.indexOf('mapa') === 0) openMapaForm(null);
+      else openNewForm();
+    };
+    bindMapasEvents();
 
     document.getElementById('searchInput').addEventListener('input', (e)=>{
       state.searchQuery = e.target.value;
@@ -1419,6 +2252,8 @@
     renderStats();
     renderList();
     bindEvents();
+    await loadMapas();
+    goto('mapas');
   }
 
   // ---------- registo do service worker (funcionamento offline) ----------
