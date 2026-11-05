@@ -444,7 +444,7 @@
       <div class="brand-text">
         <div class="name">Azurmetal</div>
         <div class="sub">Treinamento de Operação de Automações</div>
-        <div class="sub" style="opacity:.6;margin-top:1px;">Criado por Allan Xavier · <span style="color:var(--red);opacity:1;">v2.4 Mapas</span></div>
+        <div class="sub" style="opacity:.6;margin-top:1px;">Criado por Allan Xavier · <span style="color:var(--red);opacity:1;">v2.5 Mapas</span></div>
       </div>
     </div>
     <div class="stat-strip">
@@ -534,6 +534,8 @@
           <button type="button" class="btn-secondary" id="mfGalBtn" style="margin:0;">🖼 Galeria</button>
           <button type="button" class="btn-secondary" id="mfRotBtn" style="margin:0;">⟳ Rodar</button>
         </div>
+        <button type="button" class="btn-primary" id="mfAiBtn" style="margin-top:10px;background:#2b5cd6;">🤖 Ler mapa com IA</button>
+        <div id="mfAiStatus" class="draw-note"></div>
         <input type="file" id="mfCamInput" accept="image/*" capture="environment">
         <input type="file" id="mfGalInput" accept="image/*">
       </div>
@@ -779,6 +781,18 @@
       <div class="section-label">Dados</div>
       <button class="btn-secondary" id="exportBtn">Exportar backup (.json)</button>
       <button class="btn-secondary" id="exportMapasBtn">Exportar mapas de corte (.json)</button>
+
+      <div class="section-label">IA · leitura de mapas</div>
+      <div class="field"><label>Chave da API Anthropic (fica só neste telemóvel)</label>
+        <input type="text" id="aiKey" autocomplete="off" placeholder="sk-ant-..." style="font-family:var(--mono);"></div>
+      <div class="field"><label>Modelo</label>
+        <select id="aiModel">
+          <option value="claude-sonnet-5-5">Claude Sonnet 5.5 (recomendado)</option>
+          <option value="claude-opus-5-5">Claude Opus 5.5 (mais preciso, mais caro)</option>
+          <option value="claude-haiku-5-5">Claude Haiku 5.5 (mais barato)</option>
+        </select></div>
+      <button class="btn-secondary" id="aiSaveBtn">Guardar chave</button>
+      <div class="draw-note">A chave nunca vai para o GitHub nem para outras pessoas: fica guardada apenas neste aparelho. Defina um limite de gastos mensal na consola da Anthropic.</div>
 
       <div class="section-label">Conta</div>
       <button class="btn-secondary btn-danger" id="logoutBtn">Sair / Trocar utilizador</button>
@@ -1531,7 +1545,7 @@
   // Fotos dos mapas são grandes demais para o localStorage, por isso os
   // mapas ficam no IndexedDB deste telemóvel (nada é enviado para fora).
   const MP_DB = 'azurmetal_db', MP_STORE = 'mapas';
-  const MP_PHOTO_DIM = 2200, MP_PHOTO_Q = 0.86, MP_CROP_DIM = 900;
+  const MP_PHOTO_DIM = 2600, MP_PHOTO_Q = 0.86, MP_CROP_DIM = 900;
   const mp = {
     mapas: [], index: [], query: '', obra: 'todas', seg: 'pecas', kbd: 'num',
     mapaId: null, pecaKey: null, back: { view:'mapas' },
@@ -1607,6 +1621,7 @@
         if(r.nota) e.notas.push((m.pla ? m.pla + ': ' : '') + r.nota);
         if(r.conf==='duvida' && !r.nota) e.notas.push((m.pla ? m.pla + ': ' : '') + 'leitura da linha pouco nítida no papel.');
         if(!e.crop && m.crops && m.crops[e.ref || ('#'+e.n)]) e.crop = { mapaId:m.id, src:m.crops[e.ref || ('#'+e.n)] };
+        if(!e.foto && m.fotosPeca && m.fotosPeca[e.ref || ('#'+e.n)]) e.foto = { mapaId:m.id, src:m.fotosPeca[e.ref || ('#'+e.n)] };
         e.ocorr.push({ mapaId:m.id, pla:m.pla||'', chapa:r.chapa, x:m.chapaX, y:m.chapaY, esp:m.esp });
       });
     });
@@ -1776,8 +1791,17 @@
       </div>
       ${p.duvida ? `<div class="warn-box"><b>⚠ Confirmar no papel</b>${notas.length ? notas.map(esc).join('<br>') : 'Algum valor desta peça foi lido com dúvida.'}</div>` : ''}
 
-      <div class="section-label">Peça real (do mapa) · toque para ampliar</div>
-      ${p.crop ? `<img class="crop-img" id="mpCropImg" src="${p.crop.src}" alt="Peça ${esc(String(p.ref))}">` : `<div class="draw-note" style="margin:0 0 6px;">Ainda sem imagem real. Recorte a peça da foto do mapa uma vez e ela fica guardada.</div>`}
+      <div class="section-label">Foto real da peça · toque para ampliar</div>
+      ${p.foto ? `<img class="crop-img zoomable" src="${p.foto.src}" alt="Foto real da peça ${esc(String(p.ref))}">` : `<div class="draw-note" style="margin:0 0 6px;">Ainda sem foto. Fotografe a peça já cortada (de cima, com a referência visível) e ela fica guardada aqui e vai junto quando partilhar.</div>`}
+      <div class="grid-2" style="margin-top:8px;">
+        <button class="btn-secondary" id="mpFotoCam" style="margin:0;">📷 ${p.foto ? 'Nova foto' : 'Fotografar peça'}</button>
+        <button class="btn-secondary" id="mpFotoGal" style="margin:0;">🖼 Da galeria</button>
+      </div>
+      <input type="file" id="mpFotoCamIn" accept="image/*" capture="environment" style="display:none">
+      <input type="file" id="mpFotoGalIn" accept="image/*" style="display:none">
+
+      <div class="section-label">Recorte do mapa</div>
+      ${p.crop ? `<img class="crop-img zoomable" src="${p.crop.src}" alt="Recorte do mapa ${esc(String(p.ref))}">` : `<div class="draw-note" style="margin:0 0 6px;">Sem recorte. Recorte a peça da foto do mapa uma vez e ela fica guardada.</div>`}
       <button class="btn-secondary" id="mpCropBtn">✂ ${p.crop ? 'Refazer recorte' : 'Recortar da foto do mapa'}</button>
 
       <div class="section-label">Esquema com medidas</div>
@@ -1796,14 +1820,68 @@
 
       <div class="section-label">Onde está (toque para abrir o mapa)</div>
       ${occ}
-      <button class="btn-primary" id="mpShareBtn">Partilhar dados da peça</button>
+      <button class="btn-primary" id="mpShareBtn">Partilhar peça (imagem + dados)</button>
     `;
     el.querySelectorAll('.where-row').forEach(r=> r.onclick = ()=> openMapa(r.dataset.mapa));
-    const ci = document.getElementById('mpCropImg');
-    if(ci) ci.onclick = ()=>{ document.getElementById('lightboxImg').src = ci.src; document.getElementById('lightbox').classList.add('active'); };
+    el.querySelectorAll('img.zoomable').forEach(ci=> ci.onclick = ()=>{ document.getElementById('lightboxImg').src = ci.src; document.getElementById('lightbox').classList.add('active'); });
     document.getElementById('mpCropBtn').onclick = ()=> startCrop(p);
+    document.getElementById('mpFotoCam').onclick = ()=> document.getElementById('mpFotoCamIn').click();
+    document.getElementById('mpFotoGal').onclick = ()=> document.getElementById('mpFotoGalIn').click();
+    const onFoto = async (ev)=>{ const f = ev.target.files && ev.target.files[0]; ev.target.value=''; if(f) await savePecaFoto(p, f); };
+    document.getElementById('mpFotoCamIn').onchange = onFoto;
+    document.getElementById('mpFotoGalIn').onchange = onFoto;
     document.getElementById('mpShareBtn').onclick = ()=> sharePeca(p);
     goto('mapa-peca');
+  }
+
+  async function savePecaFoto(p, file){
+    const m = mp.mapas.find(x=> x.id === p.ocorr[0].mapaId);
+    if(!m) return;
+    showToast('A guardar foto...');
+    try{
+      const src = await encodeImageFile(file, 1800, 0.86);
+      m.fotosPeca = m.fotosPeca || {};
+      m.fotosPeca[p.ref || ('#'+p.n)] = src;
+      m.updatedAt = Date.now();
+      if(await putMapa(m)){ buildIndex(); showToast('Foto da peça guardada.'); openPeca(p.key); }
+    }catch(e){ showToast('Não foi possível ler a foto.'); }
+  }
+
+  function loadImg(src){ return new Promise((res, rej)=>{ const i = new Image(); i.onload = ()=> res(i); i.onerror = rej; i.src = src; }); }
+
+  // Gera um cartão (imagem) com a peça e os dados principais, para mandar no WhatsApp
+  async function buildPecaCard(p){
+    const W = 1080, pad = 48;
+    const imgSrc = p.foto ? p.foto.src : (p.crop ? p.crop.src : null);
+    const pic = imgSrc ? await loadImg(imgSrc) : null;
+    let picH = 0, picW = 0;
+    if(pic){ const k = Math.min((W-2*pad)/pic.naturalWidth, 760/pic.naturalHeight); picW = pic.naturalWidth*k; picH = pic.naturalHeight*k; }
+    const H = 470 + (pic ? picH + 40 : 0) + 230;
+    const c = document.createElement('canvas'); c.width = W; c.height = H;
+    const g = c.getContext('2d');
+    g.fillStyle = '#141414'; g.fillRect(0,0,W,H);
+    g.fillStyle = p.cor || '#e30613'; g.fillRect(0,0,W,14);
+    g.textAlign = 'center'; g.fillStyle = '#9a9a9a'; g.font = '600 30px monospace';
+    g.fillText('ESCREVER NA PEÇA', W/2, 80);
+    g.fillStyle = '#ffffff'; g.font = 'bold 190px monospace';
+    g.fillText(String(p.ref||'?'), W/2, 265);
+    g.fillStyle = '#cfcfcf'; g.font = 'bold 44px monospace';
+    g.fillText(p.n ? 'No mapa: #' + p.n : '', W/2, 335);
+    g.fillStyle = '#f2a900'; g.font = 'bold 64px monospace';
+    g.fillText(fmtDims(p.a,p.b) + ' mm', W/2, 425);
+    let y = 470;
+    if(pic){
+      g.fillStyle = '#ffffff'; g.fillRect((W-picW)/2-8, y-8, picW+16, picH+16);
+      g.drawImage(pic, (W-picW)/2, y, picW, picH);
+      y += picH + 40;
+    }
+    g.textAlign = 'left'; g.fillStyle = '#eeeeee'; g.font = '36px monospace';
+    g.fillText('Esp. ' + fmtN(p.esp) + ' mm · ' + (p.material||'') + ' · ' + fmtN(p.peso) + ' kg', pad, y+50);
+    g.fillText('Obra ' + (p.obra||'—') + ' · Total ' + (p.total||'—') + ' pçs', pad, y+100);
+    g.fillStyle = '#9a9a9a'; g.font = '30px monospace';
+    g.fillText('Mapas: ' + [...new Set(p.ocorr.map(o=>o.pla))].join(', '), pad, y+148);
+    if(p.duvida){ g.fillStyle = '#f2a900'; g.fillText('⚠ Valores a confirmar no papel', pad, y+192); }
+    return new Promise(res=> c.toBlob(res, 'image/jpeg', 0.9));
   }
 
   async function sharePeca(p){
@@ -1813,7 +1891,18 @@
       `Material: ${p.material||'—'} · Peso: ${fmtN(p.peso)} kg\n` +
       `Obra ${p.obra||'—'} · Total: ${p.total||'—'} pçs\nMapas: ${where}` +
       (p.duvida ? `\n⚠ Valores a confirmar no papel.` : '');
-    if(navigator.share){ try{ await navigator.share({ title:'Peça ' + p.ref, text: txt }); return; }catch(e){} }
+    let file = null;
+    try{ const blob = await buildPecaCard(p); file = new File([blob], 'peca_' + p.ref + '.jpg', {type:'image/jpeg'}); }catch(e){}
+    if(file && navigator.canShare && navigator.canShare({ files:[file] })){
+      try{ await navigator.share({ files:[file], title:'Peça ' + p.ref, text: txt }); return; }catch(e){ if(e && e.name==='AbortError') return; }
+    }
+    if(file){
+      const u = URL.createObjectURL(file); const a = document.createElement('a');
+      a.href = u; a.download = file.name; document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(()=> URL.revokeObjectURL(u), 4000);
+      showToast('Imagem guardada nas Transferências.');
+    }
+    if(navigator.share){ try{ await navigator.share({ title:'Peça ' + p.ref, text: txt }); return; }catch(e){ return; } }
     window.open('https://wa.me/?text=' + encodeURIComponent(txt), '_blank');
   }
 
@@ -1991,6 +2080,20 @@
   }
 
   // ---------- formulário de mapa ----------
+  function encodeImageFile(file, maxDim, q){
+    return new Promise((resolve, reject)=>{
+      const url = URL.createObjectURL(file);
+      const img = new Image();
+      img.onload = ()=>{
+        const k = Math.min(1, maxDim / Math.max(img.naturalWidth, img.naturalHeight));
+        const c = document.createElement('canvas'); c.width = Math.round(img.naturalWidth*k); c.height = Math.round(img.naturalHeight*k);
+        const g = c.getContext('2d'); g.imageSmoothingQuality = 'high'; g.drawImage(img, 0, 0, c.width, c.height);
+        URL.revokeObjectURL(url); resolve(c.toDataURL('image/jpeg', q));
+      };
+      img.onerror = (e)=>{ URL.revokeObjectURL(url); reject(e); };
+      img.src = url;
+    });
+  }
   function encodeMapPhoto(file){
     return new Promise((resolve, reject)=>{
       const url = URL.createObjectURL(file);
@@ -2079,6 +2182,11 @@
       m = Object.assign({ id: uid(), crops:{}, createdAt: now, updatedAt: now, maquina:'TECOI_Teknos_Plasma' }, data, { rows, foto: mp.form.foto });
       mp.mapas.push(m);
     }
+    if(mp.form.extra){ if(mp.form.extra.pesoTotal) m.pesoTotal = String(mp.form.extra.pesoTotal); if(mp.form.extra.aproveitamento) m.aproveitamento = String(mp.form.extra.aproveitamento); }
+    if(mp.form.boxes && Object.keys(mp.form.boxes).length){
+      try{ const cr = await cropsFromBoxes(m.foto, mp.form.boxes); m.crops = Object.assign({}, m.crops||{}, cr); }catch(e){}
+      mp.form.boxes = null;
+    }
     if(await putMapa(m)){
       buildIndex(); showToast('Mapa guardado.'); openMapa(m.id);
     }
@@ -2119,7 +2227,88 @@
     showToast('Mapas exportados.');
   }
 
+  // ================= IA: ler a foto do mapa =================
+  const AI_KEY = 'azurmetal_ai_v1';
+  function aiCfg(){ try{ return JSON.parse(localStorage.getItem(AI_KEY)) || {}; }catch(e){ return {}; } }
+  const AI_PROMPT = `Esta é a foto de uma folha "Lantek Expert" (mapa de corte de plasma) de uma fábrica em Portugal.
+Lê a folha e devolve APENAS um objeto JSON (sem texto antes ou depois) neste formato:
+{"pla":"PLA8995","ref":"12600015001","trabalho":"260169 - ...","obra":"4946","chapaX":"6000","chapaY":"1500","esp":"12","material":"S275JR","tempo":"01:20:02.40","data":"30/10/2026 16:29","pesoTotal":"847.8","aproveitamento":"85.224",
+ "rows":[{"n":"25","ref":"1064","chapa":"14","total":"18","faltam":"0","peso":"5.163","a":"360","b":"170","conf":"ok","nota":"","bbox":[x0,y0,x1,y1]}]}
+Regras:
+- "pla" vem do campo CNC; "esp" é o 3º número da chapa (ex: 6000 x 1500 x 12 -> 12). "obra" é o número de 4 dígitos depois de "Gema"/na coluna ao lado da referência (ex: 4946).
+- Uma linha em "rows" por cada linha preenchida da tabela (# , Referência, Chapa, Total, Faltam, Peso, Dimensões A x B). Inclui as linhas impressas em cor clara/fraca.
+- Usa ponto decimal. Não inventes valores: se um valor estiver ilegível ou duvidoso, escreve o mais provável e põe "conf":"duvida" com uma "nota" curta a explicar (ex: "pode ser 1094 ou 1034").
+- "bbox": a caixa de UMA peça desenhada no mapa (no desenho colorido em cima) que tem impresso o número "n" dessa linha (ex: "25", "25<"). Coordenadas normalizadas de 0 a 1000 em relação à imagem inteira (x da esquerda para a direita, y de cima para baixo). Escolhe uma peça inteira e bem visível. Se não a encontrares, usa null.`;
+
+  async function aiReadMap(){
+    const st = document.getElementById('mfAiStatus');
+    const cfg = aiCfg();
+    if(!cfg.key){ showToast('Primeiro guarde a chave da IA em Máquinas → IA.'); goto('maquinas'); return; }
+    if(!mp.form.foto){ showToast('Tire primeiro a foto do mapa.'); return; }
+    const btn = document.getElementById('mfAiBtn'); btn.disabled = true; btn.textContent = '🤖 A ler o mapa... (até 1 min)';
+    st.textContent = 'A enviar a foto para a IA...';
+    try{
+      const img = await loadImg(mp.form.foto);
+      const k = Math.min(1, 2400 / Math.max(img.naturalWidth, img.naturalHeight));
+      const c = document.createElement('canvas'); c.width = Math.round(img.naturalWidth*k); c.height = Math.round(img.naturalHeight*k);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+      const b64 = c.toDataURL('image/jpeg', 0.9).split(',')[1];
+      const r = await fetch('https://api.anthropic.com/v1/messages', {
+        method:'POST',
+        headers:{ 'content-type':'application/json', 'x-api-key': cfg.key, 'anthropic-version':'2023-06-01', 'anthropic-dangerous-direct-browser-access':'true' },
+        body: JSON.stringify({ model: cfg.model || 'claude-sonnet-5-5', max_tokens: 8000,
+          messages:[{ role:'user', content:[ { type:'image', source:{ type:'base64', media_type:'image/jpeg', data:b64 } }, { type:'text', text: AI_PROMPT } ] }] })
+      });
+      const data = await r.json();
+      if(!r.ok) throw new Error((data && data.error && data.error.message) || ('HTTP ' + r.status));
+      const txt = (data.content||[]).filter(x=>x.type==='text').map(x=>x.text).join('');
+      const j = JSON.parse(txt.slice(txt.indexOf('{'), txt.lastIndexOf('}')+1));
+      // preenche o formulário
+      const map = { mfObra:'obra', mfPla:'pla', mfTrabalho:'trabalho', mfX:'chapaX', mfY:'chapaY', mfEsp:'esp', mfMaterial:'material', mfTempo:'tempo', mfRef:'ref', mfData:'data' };
+      Object.entries(map).forEach(([id,f])=>{ if(j[f]!==undefined && j[f]!==null && j[f]!=='') document.getElementById(id).value = String(j[f]); });
+      mp.form.extra = { pesoTotal: j.pesoTotal, aproveitamento: j.aproveitamento };
+      mp.form.boxes = {};
+      mp.form.rows = (j.rows||[]).map(x=>{
+        const row = {}; ['n','ref','chapa','total','faltam','peso','a','b','nota'].forEach(f=>{ if(x[f]!==undefined && x[f]!==null && x[f]!=='') row[f] = String(x[f]); });
+        row.conf = x.conf==='duvida' ? 'duvida' : 'ok';
+        if(Array.isArray(x.bbox) && x.bbox.length===4) mp.form.boxes[row.ref || ('#'+row.n)] = x.bbox.map(Number);
+        return row;
+      });
+      renderMfRows();
+      const nd = mp.form.rows.filter(x=>x.conf==='duvida').length;
+      st.innerHTML = `✅ Lidas <b>${mp.form.rows.length}</b> linhas${nd ? ` · <span style="color:var(--amber)">${nd} com dúvida (marcadas)</span>` : ''}. Confira com o papel e toque em Guardar. As imagens das peças são recortadas ao guardar.`;
+    }catch(e){
+      st.innerHTML = `<span style="color:var(--red)">Erro: ${esc(String(e.message||e))}</span><br>Verifique a internet e a chave. Pode sempre preencher à mão.`;
+    }finally{ btn.disabled = false; btn.textContent = '🤖 Ler mapa com IA'; }
+  }
+
+  // recorta as peças a partir das caixas que a IA indicou
+  async function cropsFromBoxes(foto, boxes){
+    const out = {};
+    if(!foto || !boxes) return out;
+    const img = await loadImg(foto);
+    const W = img.naturalWidth, H = img.naturalHeight;
+    Object.entries(boxes).forEach(([ref, bb])=>{
+      if(!bb || bb.some(v=> isNaN(v))) return;
+      let [x0,y0,x1,y1] = bb; if(x1<x0) [x0,x1]=[x1,x0]; if(y1<y0) [y0,y1]=[y1,y0];
+      const px = (x1-x0)*0.12+4, py = (y1-y0)*0.12+4;
+      const s = { x: Math.max(0,(x0-px)/1000*W), y: Math.max(0,(y0-py)/1000*H) };
+      s.w = Math.min(W - s.x, (x1-x0+2*px)/1000*W); s.h = Math.min(H - s.y, (y1-y0+2*py)/1000*H);
+      if(s.w > 6 && s.h > 6) out[ref] = cropToDataURL(img, s);
+    });
+    return out;
+  }
+
   function bindMapasEvents(){
+    document.getElementById('mfAiBtn').onclick = aiReadMap;
+    const cfg0 = aiCfg();
+    document.getElementById('aiKey').value = cfg0.key || '';
+    if(cfg0.model) document.getElementById('aiModel').value = cfg0.model;
+    document.getElementById('aiSaveBtn').onclick = ()=>{
+      const key = document.getElementById('aiKey').value.trim();
+      try{ localStorage.setItem(AI_KEY, JSON.stringify({ key, model: document.getElementById('aiModel').value })); showToast(key ? 'Chave guardada neste telemóvel.' : 'Chave removida.'); }
+      catch(e){ showToast('Não foi possível guardar.'); }
+    };
     const s = document.getElementById('mpSearch');
     s.addEventListener('input', ()=>{ mp.query = s.value; renderMapasView(); });
     s.addEventListener('keydown', e=>{ if(e.key==='Enter') s.blur(); });
@@ -2158,7 +2347,7 @@
     document.getElementById('mfGalInput').onchange = onPhoto;
     document.getElementById('mfRotBtn').onclick = async ()=>{
       if(!mp.form.foto){ showToast('Adicione primeiro a foto.'); return; }
-      mp.form.foto = await rotateDataURL(mp.form.foto); renderMfPhoto();
+      mp.form.foto = await rotateDataURL(mp.form.foto); mp.form.boxes = null; renderMfPhoto();
     };
   }
 

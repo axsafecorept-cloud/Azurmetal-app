@@ -1,5 +1,5 @@
 // Service worker do app Azurmetal — guarda o essencial para funcionar sem internet.
-const CACHE_NAME = "azurmetal-cache-v6";
+const CACHE_NAME = "azurmetal-cache-v7";
 const APP_SHELL = [
   "./",
   "./index.html",
