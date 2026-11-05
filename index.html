@@ -444,7 +444,7 @@
       <div class="brand-text">
         <div class="name">Azurmetal</div>
         <div class="sub">Treinamento de Operação de Automações</div>
-        <div class="sub" style="opacity:.6;margin-top:1px;">Criado por Allan Xavier · <span style="color:var(--red);opacity:1;">v2.2 Mapas</span></div>
+        <div class="sub" style="opacity:.6;margin-top:1px;">Criado por Allan Xavier · <span style="color:var(--red);opacity:1;">v2.3 Mapas</span></div>
       </div>
     </div>
     <div class="stat-strip">
@@ -1646,7 +1646,7 @@
           const v = +q, t = q.includes('.') ? 0.06 : 1.01;
           if((A!==null && Math.abs(A-v)<=t) || (B!==null && Math.abs(B-v)<=t)) s = Math.max(s, 55);
         }
-        if(s===0 && p.ocorr.some(o=> String(o.pla).toLowerCase().includes(q))) s = 45;
+        if(s===0 && q.length>=3 && p.ocorr.some(o=> String(o.pla).toLowerCase().includes(q))) s = 45;
         if(s===0 && String(p.obra).toLowerCase()===q) s = 35;
         if(s===0 && q.length>=3 && String(p.material).toLowerCase().includes(q)) s = 20;
       }
@@ -2260,9 +2260,11 @@
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
       let refreshing = false;
+      const hadController = !!navigator.serviceWorker.controller;
       navigator.serviceWorker.addEventListener("controllerchange", () => {
-        // Nova versão instalada: recarrega uma vez para mostrar já a atualização
-        if (refreshing) return; refreshing = true; window.location.reload();
+        // Nova versão instalada por cima de uma antiga: recarrega uma vez para mostrar já a atualização.
+        // Na primeira instalação não recarrega (evita apanhar o utilizador a meio do login).
+        if (refreshing || !hadController) return; refreshing = true; window.location.reload();
       });
       navigator.serviceWorker.register("sw.js", { updateViaCache: "none" }).then(reg => {
         reg.update().catch(() => {});
