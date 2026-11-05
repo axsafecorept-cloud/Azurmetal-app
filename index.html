@@ -347,7 +347,7 @@
   .draw-box{background:#0f1011;border:1px solid var(--steel);border-radius:var(--radius);padding:6px;}
   .draw-box svg{width:100%;height:auto;display:block;}
   .draw-note{font-size:11px;color:var(--text-faint);margin-top:6px;line-height:1.4;}
-  .crop-img{width:100%;display:block;border-radius:var(--radius);border:1px solid var(--steel);background:#fff;cursor:zoom-in;}
+  .crop-img{width:100%;max-height:340px;object-fit:contain;display:block;border-radius:var(--radius);border:1px solid var(--steel);background:#fff;cursor:zoom-in;padding:6px;}
   .where-row{display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--panel);border:1px solid var(--steel);border-radius:var(--radius);padding:11px 13px;margin-bottom:8px;cursor:pointer;}
   .where-row .w-pla{font-family:var(--mono);font-weight:700;font-size:16px;}
   .where-row .w-sub{font-family:var(--mono);font-size:11px;color:var(--text-dim);margin-top:2px;}
@@ -444,7 +444,7 @@
       <div class="brand-text">
         <div class="name">Azurmetal</div>
         <div class="sub">Treinamento de Operação de Automações</div>
-        <div class="sub" style="opacity:.6;margin-top:1px;">Criado por Allan Xavier · <span style="color:var(--red);opacity:1;">v2.3 Mapas</span></div>
+        <div class="sub" style="opacity:.6;margin-top:1px;">Criado por Allan Xavier · <span style="color:var(--red);opacity:1;">v2.4 Mapas</span></div>
       </div>
     </div>
     <div class="stat-strip">
@@ -1776,13 +1776,13 @@
       </div>
       ${p.duvida ? `<div class="warn-box"><b>⚠ Confirmar no papel</b>${notas.length ? notas.map(esc).join('<br>') : 'Algum valor desta peça foi lido com dúvida.'}</div>` : ''}
 
-      <div class="section-label">Desenho</div>
-      <div class="draw-box">${pieceSVG(p) || '<div class="empty-state" style="padding:20px"><div class="d">Sem medidas para desenhar.</div></div>'}</div>
-      <div class="draw-note">Esquema feito com as medidas exteriores (${fmtDims(p.a,p.b)}). Furos, chanfros e recortes: veja a imagem da peça abaixo ou o mapa.</div>
-
-      <div class="section-label">Imagem da peça</div>
-      ${p.crop ? `<img class="crop-img" id="mpCropImg" src="${p.crop.src}" alt="Peça ${esc(String(p.ref))}">` : `<div class="draw-note" style="margin:0 0 6px;">Ainda sem imagem. Recorte a peça da foto do mapa uma vez e ela fica aqui para sempre.</div>`}
+      <div class="section-label">Peça real (do mapa) · toque para ampliar</div>
+      ${p.crop ? `<img class="crop-img" id="mpCropImg" src="${p.crop.src}" alt="Peça ${esc(String(p.ref))}">` : `<div class="draw-note" style="margin:0 0 6px;">Ainda sem imagem real. Recorte a peça da foto do mapa uma vez e ela fica guardada.</div>`}
       <button class="btn-secondary" id="mpCropBtn">✂ ${p.crop ? 'Refazer recorte' : 'Recortar da foto do mapa'}</button>
+
+      <div class="section-label">Esquema com medidas</div>
+      <div class="draw-box">${pieceSVG(p) || '<div class="empty-state" style="padding:20px"><div class="d">Sem medidas para desenhar.</div></div>'}</div>
+      <div class="draw-note">Esquema gerado só com as medidas exteriores (${fmtDims(p.a,p.b)}). Não mostra furos nem recortes: para isso veja a peça real acima.</div>
 
       <div class="section-label">Dados</div>
       <div class="spec-grid">
